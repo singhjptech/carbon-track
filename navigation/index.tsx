@@ -30,6 +30,7 @@ import {
 import UserDetails from "../components/UserDetails";
 import GroupDetails from "../components/GroupDetails";
 import HomeScreen from "../components/HomeScreen";
+import Journey from "../components/Journey";
 
 export default function Navigation({
   colorScheme,
@@ -56,6 +57,11 @@ export default function Navigation({
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
+        />
+        <Stack.Screen
+          name="Journey"
+          component={Journey}
+          options={{ title: "Your Journey Details"}}
         />
       </Stack.Navigator>
       {/* <RootNavigator /> */}
