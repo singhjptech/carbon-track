@@ -1,7 +1,6 @@
 const axios = require("axios");
 
 const getData = async (regNum) => {
-  console.log(regNum, "<-- regNum in GET DATA");
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
     method: "post",
