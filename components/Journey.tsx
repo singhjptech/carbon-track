@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
 
 const Journey: React.FC<Props> = ({ navigation }) => {
-    const [fromInput, setFromInput] = useState('');
-    const [toInput, setToInput] = useState('');
+  const [fromInput, setFromInput] = useState('');
+  const [toInput, setToInput] = useState('');
 
-    const handleSubmit = () => {};
+  const handleSubmit = () => { };
 
 
   return (
@@ -27,33 +27,34 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         onChangeText={(toInput) => setToInput(toInput)}
       />
       <Button title="Submit" color="black" onPress={handleSubmit} />
-    
-      
+      <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
+
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    from: {
-      fontSize: 20,
-      fontWeight: "bold",
-      margin: 16,
-    },
-    to: {
-      fontSize: 20,
-      fontWeight: "bold",
-      margin: 16,
-    },
-    input: {
-      borderColor: "black",
-      borderWidth: 1,
-      width: 100,
-    },
-  });
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  from: {
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 16,
+  },
+  to: {
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 16,
+  },
+  input: {
+    borderColor: "black",
+    borderWidth: 1,
+    width: 100,
+  },
+});
 
 export default Journey;
