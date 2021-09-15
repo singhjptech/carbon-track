@@ -14,16 +14,18 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [hasErrored, setHasErrored] = useState(false);
 
   useEffect(() => {
-    getData(submitReg)
-      .then((vehicle) => {
-        setUserVehicle(vehicle);
-      })
-      .catch((err) => {
-        if (err) {
-          setHasErrored(true);
-          setUserVehicle("");
-        }
-      });
+    if (submitReg.length >= 0) {
+      getData(submitReg)
+        .then((vehicle) => {
+          setUserVehicle(vehicle);
+        })
+        .catch((err) => {
+          if (err) {
+            setHasErrored(true);
+            setUserVehicle("");
+          }
+        });
+    }
   }, [submitReg]);
 
   const handleSubmit = () => {
@@ -32,6 +34,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
     setInputReg("");
   };
   console.log(submitReg, "<--Submitted");
+  console.log(hasErrored, "<-- HAS ERRORED");
   console.log(userVehicle, "Veh Obj");
 
   return (
