@@ -43,7 +43,7 @@ const UserDetails: React.FC<Props> = ({
       <Button
         title="Next"
         color="black"
-        onPress={() => navigation.navigate("HomeScreen")}
+        onPress={() => navigation.navigate("Home")}
       />
     </View>
   );

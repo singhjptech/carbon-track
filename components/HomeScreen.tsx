@@ -1,22 +1,25 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import Estimate from "./Estimate";
+
 import Header from "./Header";
+import UserActivity from "./UserActivity";
 
 export type Props = {
-  navigation?: string
+  navigation?: string;
 };
 
-const HomeScreen: React.FC<Props> = ({
-  navigation,
-}) => {
- 
-
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      <Header />
+
+    <SafeAreaView style={styles.container}>
+      <Header navigation={navigation} />
       <Estimate navigation={navigation}/>
-    </View>
+      <UserActivity />
+    </SafeAreaView>
   );
 };
 
@@ -24,8 +27,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+    backgroundColor: "#2F4847",
+    margin: 0,
+  },
 });
 
 export default HomeScreen;
