@@ -26,11 +26,13 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
       });
   }, [submitReg]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     setHasErrored(false);
     setSubmitReg(inputReg);
     setInputReg("");
   };
+  console.log(hasErrored, "<- HAS ERRORED");
   console.log(submitReg, "<--Submitted");
   console.log(userVehicle, "Veh Obj");
 
@@ -44,9 +46,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
         style={styles.input}
         onChangeText={(inputReg) => setInputReg(inputReg)}
       />
-      {hasErrored ? (
-        <Text style={styles.inputError}>Error, invalid input</Text>
-      ) : null}
+      {hasErrored && <Text style={styles.inputError}>Error, invalid input</Text>}
       <Button title="Submit" color="black" onPress={handleSubmit} />
       <Button
         title="Back"
