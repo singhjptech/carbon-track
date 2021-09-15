@@ -11,6 +11,7 @@ import UserDetails from "../components/UserDetails";
 import GroupDetails from "../components/GroupDetails";
 import HomeScreen from "../components/HomeScreen";
 import User from "../components/User";
+import Journey from "../components/Journey";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,8 +35,15 @@ export default function Navigation({
           component={UserDetails}
           options={{ title: "Your Details" }}
         />
+
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="User" component={User} />
+
+        <Stack.Screen
+          name="Journey"
+          component={Journey}
+          options={{ title: "Your Journey Details"}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

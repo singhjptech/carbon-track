@@ -1,6 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import Estimate from "./Estimate";
+
 import Header from "./Header";
 import UserActivity from "./UserActivity";
 
@@ -10,8 +14,10 @@ export type Props = {
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
+
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
+      <Estimate navigation={navigation}/>
       <UserActivity />
     </SafeAreaView>
   );
