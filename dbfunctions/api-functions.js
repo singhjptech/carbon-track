@@ -13,33 +13,12 @@ const config = {
   data: data,
 };
 
-// const vehicleData = {
-//   emissions: 0,
-//   make: '',
-//   fuelType: ''
-// }
-
-// const getData = async () => {
-//   await axios(config)
-//     .then((response) => {
-//       let vehicleData = {};
-//       vehicleData.emissions = response.data.co2Emissions;
-//       vehicleData.make = response.data.make;
-//       vehicleData.fuelType = response.data.fuelType;
-//       return vehicleData;
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     })
-// };
-
 const getData = async () => {
   const { data } = await axios(config)
   let vehicleData = {};
   vehicleData.emissions = data.co2Emissions;
   vehicleData.make = data.make;
   vehicleData.fuelType = data.fuelType;
-  console.log(vehicleData, '<- OUR DATA')
   return vehicleData;
 }
 
