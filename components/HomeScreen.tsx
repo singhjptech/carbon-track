@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Estimate from "./Estimate";
 import Header from "./Header";
 
 export type Props = {
@@ -14,6 +15,7 @@ const HomeScreen: React.FC<Props> = ({
   return (
     <View style={styles.container}>
       <Header />
+      <Estimate navigation={navigation}/>
     </View>
   );
 };
