@@ -19,7 +19,7 @@ const getData = async (regNum) => {
     method: "post",
     url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
     headers: {
-      "x-api-key": "zsisXTnLTG7Ho55QW6rYY2A9oYp5LldN9eOLjt2i",
+      "x-api-key": "",
       "Content-Type": "application/json",
     },
     data: reg,
