@@ -2,7 +2,10 @@ const axios = require("axios");
 // import { googleAPI, dvlaAPI } from "./apikeys";
 
 const getData = async (regNum) => {
+<<<<<<< HEAD
   console.log("inside getData");
+=======
+>>>>>>> b97aead5d8cadd9e34f666ef1108f28b37b443ab
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
     method: "post",
