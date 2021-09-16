@@ -1,15 +1,19 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 
-
-const UserDetails: React.FC<Props> = ({
-  navigation
-}) => {
+const UserDetails: React.FC<Props> = (
+  {
+    // navigation
+  }
+) => {
   const [createGroup, setCreateGroup] = useState("");
   const [joinGroup, setJoinGroup] = useState("");
 
-  const handleSubmit = () => {};
+  const navigation = useNavigation();
+
+  const handleSubmit = () => { };
 
   return (
     <View style={styles.container}>
