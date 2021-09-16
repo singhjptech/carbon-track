@@ -2,16 +2,12 @@ const axios = require("axios");
 // import { googleAPI, dvlaAPI } from "./apikeys";
 
 const getData = async (regNum) => {
-<<<<<<< HEAD
-  console.log("inside getData");
-=======
->>>>>>> b97aead5d8cadd9e34f666ef1108f28b37b443ab
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
     method: "post",
     url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
     headers: {
-      "x-api-key": dvlaAPI,
+      "x-api-key": "zsisXTnLTG7Ho55QW6rYY2A9oYp5LldN9eOLjt2i",
       "Content-Type": "application/json",
     },
     data: reg,
