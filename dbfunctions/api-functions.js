@@ -1,13 +1,13 @@
 const axios = require("axios");
+import { googleAPI, dvlaAPI } from "./apikeys";
 
 const getData = async (regNum) => {
-  console.log(regNum, "<-- regNum in GET DATA");
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
     method: "post",
     url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
     headers: {
-      "x-api-key": "zsisXTnLTG7Ho55QW6rYY2A9oYp5LldN9eOLjt2i",
+      "x-api-key": dvlaAPI,
       "Content-Type": "application/json",
     },
     data: reg,
@@ -22,4 +22,20 @@ const getData = async (regNum) => {
   return vehicleData;
 };
 
-module.exports = { getData };
+const getDistance = (origin, destination) => {
+  axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&${destination}=Montreal&key=${googleAPI}`);
+}
+
+// const getMap = async () => {
+//   const myLatLng = { lat: 53.4721, 2.2382 };
+//   const mapOptions = 
+//     {
+//       center: myLatLng,
+//       zoom: 7,
+//       mapTypeId: google.maps.MapTypeId.ROADMAP
+//     };
+
+//   const map = new google.maps.Map(document.getElementById('googleMap'), )
+// }
+
+module.exports = { getData, getMap };
