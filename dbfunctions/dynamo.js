@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Auth } from "aws-amplify";
 const AWS = require("aws-sdk");
 let dynamodb;
@@ -9,6 +10,15 @@ Auth.currentUserCredentials().then((cred) => {
     sessionToken: cred.sessionToken,
   });
   dynamodb = new AWS.DynamoDB.DocumentClient();
+=======
+import { Auth } from 'aws-amplify';
+import { getData } from './api-functions';
+const AWS = require('aws-sdk')
+let dynamodb
+Auth.currentUserCredentials().then(cred => {
+    AWS.config.update({ region: 'eu-west-2', accessKeyId: cred.accessKeyId, secretAccessKey: cred.secretAccessKey, sessionToken: cred.sessionToken })
+    dynamodb = new AWS.DynamoDB.DocumentClient
+>>>>>>> 6a16e2b2d8fc68178a44ac0229f2c12acbb7bdbf
 });
 const getTable = async () => {
   dynamodb.get(
@@ -20,6 +30,7 @@ const getTable = async () => {
   );
 };
 const addCar = async (car) => {
+<<<<<<< HEAD
   dynamodb.put(
     {
       TableName: "Users",
@@ -33,3 +44,13 @@ const addCar = async (car) => {
 };
 
 export { getTable };
+=======
+    try {
+        await dynamodb.put({ TableName: 'Users', Item: { make: car.make, user_id: 1 } });
+    } catch (err) {
+        console.log(err);
+    };
+};
+
+export { getTable, addCar };
+>>>>>>> 6a16e2b2d8fc68178a44ac0229f2c12acbb7bdbf
