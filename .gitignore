@@ -1,4 +1,5 @@
 node_modules/
+apikeys.js
 .expo/
 npm-debug.*
 *.jks
@@ -31,7 +32,6 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
-**.sample
 #amplify-do-not-edit-end
 
 apikeys.js

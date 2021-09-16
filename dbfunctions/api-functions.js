@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { API_KEY_DVLA } = require("../apikeys");
+const { googleAPI, dvlaAPI } = require('./apikeys');
 
 const getData = async (regNum) => {
   const reg = JSON.stringify({ registrationNumber: regNum });
@@ -7,7 +7,7 @@ const getData = async (regNum) => {
     method: "post",
     url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
     headers: {
-      "x-api-key": API_KEY_DVLA,
+      "x-api-key": dvlaAPI,
       "Content-Type": "application/json",
     },
     data: reg,
@@ -22,4 +22,13 @@ const getData = async (regNum) => {
   return vehicleData;
 };
 
-module.exports = { getData };
+const getDistance = (origin, destination) => {
+  return axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
+    .then((res) => {
+      console.log(`${origin} to ${destination} is ${res.data.routes[0].legs[0].distance.text}`);
+    }, (err) => {
+      console.log(err, "<- GOOGLE ERROR!");
+    });
+};
+
+module.exports = { getData, getDistance };
