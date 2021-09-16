@@ -1,38 +1,61 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getData } from "../dbfunctions/api-functions.js";
 
-export type Props = {
-  name?: string;
-};
+// export type Props = {
+//   navigation?: string;
+// };
 
-const UserDetails: React.FC<Props> = ({ navigation }) => {
+const UserDetails: React.FC<Props> = ({
+  // navigation,
+  userVehicle,
+  setUserVehicle,
+}) => {
   const [inputReg, setInputReg] = useState("");
   const [submitReg, setSubmitReg] = useState("");
-  const [userVehicle, setUserVehicle] = useState({});
   const [hasErrored, setHasErrored] = useState(false);
+  const [confirmVehicle, setConfirmVehicle] = useState(false);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
-    getData(submitReg)
-      .then((vehicle) => {
-        setUserVehicle(vehicle);
-      })
-      .catch((err) => {
-        if (err) {
-          setHasErrored(true);
-          setUserVehicle("");
-        }
-      });
+    if (submitReg.length >= 4) {
+      getData(submitReg)
+        .then((vehicle) => {
+          setUserVehicle(vehicle);
+        })
+        .catch((err) => {
+          if (err) {
+            setHasErrored(true);
+            setUserVehicle("");
+          }
+        });
+    }
   }, [submitReg]);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     setHasErrored(false);
     setSubmitReg(inputReg);
     setInputReg("");
+    vehicleAdded();
   };
-  console.log(submitReg, "<--Submitted");
-  console.log(userVehicle, "Veh Obj");
+
+  const vehicleAdded = () => {
+    console.log(userVehicle, "VA func");
+
+    if (Object.keys(userVehicle).length === 5) {
+      console.log("here?");
+      setConfirmVehicle(true);
+    }
+  };
+
+  console.log(userVehicle, "<--VEHICLE");
+  console.log(Object.keys(userVehicle).length, "<--length");
+  console.log(submitReg, "<--SUBMIT");
+  console.log(confirmVehicle, "<--Confirm");
 
   return (
     <View style={styles.container}>
@@ -44,19 +67,29 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
         style={styles.input}
         onChangeText={(inputReg) => setInputReg(inputReg)}
       />
-      {hasErrored ? (
+      {hasErrored && (
         <Text style={styles.inputError}>Error, invalid input</Text>
-      ) : null}
+      )}
       <Button title="Submit" color="black" onPress={handleSubmit} />
+
+      {confirmVehicle && (
+        <>
+          <Text>Make: {userVehicle.make}</Text>
+          <Text>Colour: {userVehicle.colour}</Text>
+          <Text>Year: {userVehicle.year}</Text>
+          <Text>Fuel Type: {userVehicle.fuelType}</Text>
+          <Text>C02 Emissions: {userVehicle.emissions}</Text>
+          <Button
+            title="Confirm"
+            color="black"
+            onPress={navigation.navigate("Home")}
+          />
+        </>
+      )}
       <Button
         title="Back"
         color="black"
         onPress={() => navigation.navigate("GroupDetails")}
-      />
-      <Button
-        title="Next"
-        color="black"
-        onPress={() => navigation.navigate("Home")}
       />
     </View>
   );
