@@ -1,4 +1,5 @@
 import { Auth } from 'aws-amplify';
+import { getData } from './api-functions';
 const AWS = require('aws-sdk')
 let dynamodb
 Auth.currentUserCredentials().then(cred => {
@@ -12,10 +13,11 @@ const getTable = async () => {
     });
 }
 const addCar = async (car) => {
-    dynamodb.put({ TableName: 'Users', Item: { make: car.make, model: car.model, username: Auth.username } }, (err, data) => {
-        if (err) console.log(err);
-        console.log(data);
-    });
-}
+    try {
+        await dynamodb.put({ TableName: 'Users', Item: { make: car.make, user_id: 1 } });
+    } catch (err) {
+        console.log(err);
+    };
+};
 
-export { getTable };
+export { getTable, addCar };
