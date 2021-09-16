@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getData } from "../dbfunctions/api-functions.js";
+import { addCar } from "../dbfunctions/dynamo.js";
 
 // export type Props = {
 //   navigation?: string;
@@ -25,6 +26,7 @@ const UserDetails: React.FC<Props> = ({
       getData(submitReg)
         .then((vehicle) => {
           setUserVehicle(vehicle);
+          addCar(vehicle);
         })
         .catch((err) => {
           if (err) {
