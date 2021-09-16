@@ -1,7 +1,5 @@
 const axios = require("axios");
 
-<<<<<<< HEAD
-=======
 // const data = JSON.stringify({ registrationNumber: "AA19AAA" });
 
 // const config = {
@@ -14,7 +12,6 @@ const axios = require("axios");
 //   data: reg,
 // };
 
->>>>>>> 537a0201b5e3a981bff44fb9f59304dcb4c0ffa9
 const getData = async (regNum) => {
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
