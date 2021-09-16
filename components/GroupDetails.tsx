@@ -11,13 +11,9 @@ const UserDetails: React.FC<Props> = (
   const [createGroup, setCreateGroup] = useState("");
   const [joinGroup, setJoinGroup] = useState("");
 
-<<<<<<< HEAD
-  const handleSubmit = () => { };
-=======
   const navigation = useNavigation();
 
-  const handleSubmit = () => {};
->>>>>>> b97aead5d8cadd9e34f666ef1108f28b37b443ab
+  const handleSubmit = () => { };
 
   return (
     <View style={styles.container}>
