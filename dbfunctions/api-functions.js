@@ -22,9 +22,9 @@ const getData = async (regNum) => {
   return vehicleData;
 };
 
-const getDistance = (origin, destination) => {
-  axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&${destination}=Montreal&key=${googleAPI}`);
-}
+// const getDistance = (origin, destination) => {
+//   axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&${destination}=Montreal&key=${googleAPI}`);
+// };
 
 // const getMap = async () => {
 //   const myLatLng = { lat: 53.4721, 2.2382 };
@@ -38,4 +38,4 @@ const getDistance = (origin, destination) => {
 //   const map = new google.maps.Map(document.getElementById('googleMap'), )
 // }
 
-module.exports = { getData, getMap };
+export { getData };
