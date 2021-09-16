@@ -11,9 +11,10 @@ export type Props = {
   navigation?: string;
 };
 
-const HomeScreen: React.FC<Props> = ({ navigation }) => {
+const HomeScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { userVehicle } = route.params;
+  console.log(userVehicle, "VEHICLE");
   return (
-
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
       <Estimate navigation={navigation} />

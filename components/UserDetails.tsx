@@ -1,63 +1,31 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getData } from "../dbfunctions/api-functions.js";
 import { addCar } from "../dbfunctions/dynamo.js";
 
-// export type Props = {
-//   navigation?: string;
-// };
+export type Props = {
+  navigation?: string;
+};
 
-const UserDetails: React.FC<Props> = ({
-  // navigation,
-  userVehicle,
-  setUserVehicle,
-}) => {
+const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [inputReg, setInputReg] = useState("");
-  const [submitReg, setSubmitReg] = useState("");
+  const [userVehicle, setUserVehicle] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
-  const [confirmVehicle, setConfirmVehicle] = useState(false);
-
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    if (submitReg.length >= 4) {
-      getData(submitReg)
-        .then((vehicle) => {
-          setUserVehicle(vehicle);
-          addCar(vehicle);
-        })
-        .catch((err) => {
-          if (err) {
-            setHasErrored(true);
-            setUserVehicle("");
-          }
-        });
-    }
-  }, [submitReg]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setHasErrored(false);
-    setSubmitReg(inputReg);
-    setInputReg("");
-    vehicleAdded();
+    console.log(inputReg, "input reg plate");
+    getData(inputReg)
+      .then((vehicle) => {
+        setUserVehicle(vehicle);
+        setInputReg("");
+      })
+      .catch((err) => {
+        setHasErrored(true);
+        setUserVehicle(null);
+      });
   };
-
-  const vehicleAdded = () => {
-    console.log(userVehicle, "VA func");
-
-    if (Object.keys(userVehicle).length === 5) {
-      console.log("here?");
-      setConfirmVehicle(true);
-    }
-  };
-
-  console.log(userVehicle, "<--VEHICLE");
-  console.log(Object.keys(userVehicle).length, "<--length");
-  console.log(submitReg, "<--SUBMIT");
-  console.log(confirmVehicle, "<--Confirm");
 
   return (
     <View style={styles.container}>
@@ -72,10 +40,12 @@ const UserDetails: React.FC<Props> = ({
       {hasErrored && (
         <Text style={styles.inputError}>Error, invalid input</Text>
       )}
-      <Button title="Submit" color="black" onPress={handleSubmit} />
+      {!userVehicle && (
+        <Button title="Submit" color="black" onPress={handleSubmit} />
+      )}
 
-      {confirmVehicle && (
-        <>
+      {userVehicle && (
+        <View>
           <Text>Make: {userVehicle.make}</Text>
           <Text>Colour: {userVehicle.colour}</Text>
           <Text>Year: {userVehicle.year}</Text>
@@ -84,9 +54,9 @@ const UserDetails: React.FC<Props> = ({
           <Button
             title="Confirm"
             color="black"
-            onPress={navigation.navigate("Home")}
+            onPress={() => navigation.navigate("Home", { userVehicle })}
           />
-        </>
+        </View>
       )}
       <Button
         title="Back"
