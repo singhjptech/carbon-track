@@ -1,13 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { withAuthenticator } from 'aws-amplify-react-native'
-import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './src/aws-exports.js';
+import { withAuthenticator } from "aws-amplify-react-native";
+import Amplify, { Auth } from "aws-amplify";
+import awsconfig from "./src/aws-exports.js";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-Amplify.configure({ ...awsconfig, Analytics: { disabled: true } })
+Amplify.configure({ ...awsconfig, Analytics: { disabled: true } });
+
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
@@ -24,3 +25,4 @@ function App() {
 }
 
 export default withAuthenticator(App);
+// export default App;
