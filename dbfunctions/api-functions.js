@@ -1,28 +1,13 @@
 const axios = require("axios");
-// import { googleAPI, dvlaAPI } from "./apikeys";
+const { googleAPI, dvlaAPI } = require('./apikeys');
 
-<<<<<<< HEAD
-=======
-// const data = JSON.stringify({ registrationNumber: "AA19AAA" });
-
-// const config = {
-//   method: "post",
-//   url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
-//   headers: {
-//     "x-api-key": "",
-//     "Content-Type": "application/json",
-//   },
-//   data: reg,
-// };
-
->>>>>>> 537a0201b5e3a981bff44fb9f59304dcb4c0ffa9
 const getData = async (regNum) => {
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
     method: "post",
     url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
     headers: {
-      "x-api-key": "",
+      "x-api-key": dvlaAPI,
       "Content-Type": "application/json",
     },
     data: reg,
@@ -37,20 +22,13 @@ const getData = async (regNum) => {
   return vehicleData;
 };
 
-// const getDistance = (origin, destination) => {
-//   axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&${destination}=Montreal&key=${googleAPI}`);
-// };
+const getDistance = (origin, destination) => {
+  return axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
+    .then((res) => {
+      console.log(`${origin} to ${destination} is ${res.data.routes[0].legs[0].distance.text}`);
+    }, (err) => {
+      console.log(err, "<- GOOGLE ERROR!");
+    });
+};
 
-// const getMap = async () => {
-//   const myLatLng = { lat: 53.4721, 2.2382 };
-//   const mapOptions = 
-//     {
-//       center: myLatLng,
-//       zoom: 7,
-//       mapTypeId: google.maps.MapTypeId.ROADMAP
-//     };
-
-//   const map = new google.maps.Map(document.getElementById('googleMap'), )
-// }
-
-module.exports = { getData };
+module.exports = { getData, getDistance };
