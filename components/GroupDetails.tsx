@@ -9,7 +9,7 @@ const UserDetails: React.FC<Props> = ({
   const [createGroup, setCreateGroup] = useState("");
   const [joinGroup, setJoinGroup] = useState("");
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => { };
 
   return (
     <View style={styles.container}>

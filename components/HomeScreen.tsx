@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Estimate from "./Estimate";
@@ -17,7 +16,7 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
-      <Estimate navigation={navigation}/>
+      <Estimate navigation={navigation} />
       <UserActivity />
     </SafeAreaView>
   );
