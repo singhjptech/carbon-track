@@ -12,28 +12,6 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [inputReg, setInputReg] = useState("");
   const [userVehicle, setUserVehicle] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
-<<<<<<< HEAD
-=======
-  const [confirmVehicle, setConfirmVehicle] = useState(false);
-
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    if (submitReg.length >= 4) {
-      getData(submitReg)
-        .then((vehicle) => {
-          setUserVehicle(vehicle);
-          addCar(vehicle);
-        })
-        .catch((err) => {
-          if (err) {
-            setHasErrored(true);
-            setUserVehicle("");
-          }
-        });
-    }
-  }, [submitReg]);
->>>>>>> 6a16e2b2d8fc68178a44ac0229f2c12acbb7bdbf
 
   const handleSubmit = (event) => {
     event.preventDefault();
