@@ -1,7 +1,8 @@
 const axios = require("axios");
-import { googleAPI, dvlaAPI } from "./apikeys";
+// import { googleAPI, dvlaAPI } from "./apikeys";
 
 const getData = async (regNum) => {
+  console.log("inside getData");
   const reg = JSON.stringify({ registrationNumber: regNum });
   const config = {
     method: "post",
@@ -38,4 +39,4 @@ const getData = async (regNum) => {
 //   const map = new google.maps.Map(document.getElementById('googleMap'), )
 // }
 
-export { getData };
+module.exports = { getData };
