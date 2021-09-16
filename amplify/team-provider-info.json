@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "carbonoffset50326ed6": {}
+        "carbonoffset50326ed6": {},
+        "userPoolGroups": {}
       }
     }
   }

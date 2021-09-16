@@ -1,16 +1,5 @@
 const axios = require("axios");
-
-// const data = JSON.stringify({ registrationNumber: "AA19AAA" });
-
-// const config = {
-//   method: "post",
-//   url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
-//   headers: {
-//     "x-api-key": "",
-//     "Content-Type": "application/json",
-//   },
-//   data: reg,
-// };
+const { API_KEY_DVLA } = require("../apikeys");
 
 const getData = async (regNum) => {
   const reg = JSON.stringify({ registrationNumber: regNum });
@@ -18,7 +7,7 @@ const getData = async (regNum) => {
     method: "post",
     url: "https://driver-vehicle-licensing.api.gov.uk/vehicle-enquiry/v1/vehicles",
     headers: {
-      "x-api-key": "",
+      "x-api-key": API_KEY_DVLA,
       "Content-Type": "application/json",
     },
     data: reg,
