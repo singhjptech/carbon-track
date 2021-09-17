@@ -2,14 +2,15 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-
 const UserDetails: React.FC<Props> = (
   {
     // navigation
   }
 ) => {
-  const [createGroup, setCreateGroup] = useState("");
+  const [createGroup, setCreateGroup] = useState();
+  //we need groupcode, groupname 
   const [joinGroup, setJoinGroup] = useState("");
+  //we need groupcode, groupname 
 
   const navigation = useNavigation();
 
