@@ -2,17 +2,26 @@ import { Auth } from 'aws-amplify';
 const AWS = require('aws-sdk')
 let dynamodb
 Auth.currentUserCredentials().then(cred => {
-    AWS.config.update({ region: 'eu-west-2', accessKeyId: cred.accessKeyId, secretAccessKey: cred.secretAccessKey, sessionToken: cred.sessionToken })
+    AWS.config.update({ 
+        region: 'eu-west-2', 
+        accessKeyId: cred.accessKeyId, 
+        secretAccessKey: cred.secretAccessKey, 
+        sessionToken: cred.sessionToken 
+    })
     dynamodb = new AWS.DynamoDB.DocumentClient;
 });
+
 const getTable = async () => {
-    dynamodb.get({ TableName: 'Users', Key: { name: Auth.username } }, (err, data) => {
-        if (err) console.log(err);
-        console.log(data);
-    });
+    const users = await dynamodb.scan({TableName: 'UserData'}).promise();
+    return users;
 }
 const addCar = async (car) => {
-    const userData = await dynamodb.get({TableName: 'UserData', Key:{UserName: Auth.user.username} }).promise();
+    const userData = await dynamodb.get({
+        TableName: 'UserData', 
+        AttributesToGet: ['Vehicles'],
+        Key:{
+            UserName: Auth.user.username
+        }}).promise();
     
     if (Object.keys(userData).length === 0) {
         await dynamodb.put({
@@ -46,6 +55,7 @@ const addCar = async (car) => {
 const getCar = async () => {
     const vehicles = await dynamodb.get({
         TableName: 'UserData',
+        AttributesToGet: ['Vehicles'],
         Key: {
             UserName: Auth.user.username
         }
@@ -67,6 +77,7 @@ const getUser = async () => {
 const addGroup = async (groupData) => {
     const group = await dynamodb.get({
         TableName: 'GroupData', 
+        AttributesToGet: ['GroupName'],
         Key: {
             GroupName:groupData.GroupName
         }
@@ -96,7 +107,6 @@ const addUserToGroup = async (groupData) => {
             GroupName: groupData.GroupName
         }}).promise();
         if(Object.keys(group).length === 0) {
-            
             return false;
         } else {
         if(group.Item.GroupCode === groupData.GroupCode && !group.Item.GroupMembers.includes(Auth.user.username)) {
@@ -117,16 +127,20 @@ const addUserToGroup = async (groupData) => {
 };
 
 const getGroup = async (groupName) => {
-    return await dynamodb.get({TableName:'GroupData', Key: {groupName: groupName}}).promise();
-
+    return await dynamodb.get({
+        TableName:'GroupData', 
+        Key: {
+            groupName: groupName
+        }}).promise();
 }
 
 const getGroupEmissions = async (username) => {
     const emissions = await dynamodb.get({
-        TableName: 'UserData',
-        Key: {
-            UserName: username
-        }
+    TableName: 'UserData',
+    AttributesToGet: ['TotalEmissions', 'EmissionsSaved'],
+    Key: {
+        UserName: username
+    }
     }).promise();
     return {TotalEmissions: emissions.Item.TotalEmissions,
             EmissionsSaved: emissions.Item.EmissionsSaved };
