@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View, Dimensions } from "react-native";
+import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getDistance } from "../dbfunctions/api-functions";
 import MapView from 'react-native-maps';
+
+export type Props = {
+  navigation?: string;
+};
 
 const Journey: React.FC<Props> = ({ navigation }) => {
   const [fromInput, setFromInput] = useState('');
@@ -16,9 +20,10 @@ const Journey: React.FC<Props> = ({ navigation }) => {
     }).catch((err) => {
       setHasErrored(true);
     });
+  }
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.from}>From:</Text>
         <TextInput
           defaultValue={fromInput}
@@ -39,16 +44,15 @@ const Journey: React.FC<Props> = ({ navigation }) => {
 
         <MapView style={styles.mapView} />
 
-      </View>
+      </SafeAreaView>
     );
-  }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   from: {
     fontSize: 20,
@@ -67,7 +71,7 @@ const styles = StyleSheet.create({
   },
   mapView: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    height: 200
   }
 });
 

@@ -19,13 +19,13 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
     getData(inputReg)
       .then((vehicle) => {
         setUserVehicle(vehicle);
-        addCar(vehicle);
         setInputReg("");
       })
       .catch((err) => {
         setHasErrored(true);
         setUserVehicle(null);
-      });
+      })
+      addCar();
   };
 
   return (
