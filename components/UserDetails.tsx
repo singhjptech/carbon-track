@@ -19,6 +19,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
     getData(inputReg)
       .then((vehicle) => {
         setUserVehicle(vehicle);
+        addCar(vehicle);
         setInputReg("");
       })
       .catch((err) => {
@@ -33,7 +34,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
       <TextInput
         autoCapitalize="characters"
         defaultValue={inputReg}
-        placeholder="enter make"
+        placeholder="vehicle registration"
         style={styles.input}
         onChangeText={(inputReg) => setInputReg(inputReg)}
       />
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
   input: {
     borderColor: "black",
     borderWidth: 1,
-    width: 100,
+    width: 150,
   },
 });
 
