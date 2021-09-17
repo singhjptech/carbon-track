@@ -1,4 +1,4 @@
-const axios = require("axios");
+cconst axios = require("axios");
 const { googleAPI, dvlaAPI } = require('./apikeys');
 
 const getData = async (regNum) => {
@@ -23,11 +23,19 @@ const getData = async (regNum) => {
 };
 
 const getDistance = async (origin, destination) => {
-  const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
-  console.log(data.geocoded_waypoints[0].place_id);
+  const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`);
   const distance = data.routes[0].legs[0].distance.text;
   return distance;
 };
 
-getDistance('London', 'Edinburgh');
-module.exports = { getData, getDistance };
+const getCoordinates = async (origin, destination) => {
+  const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`);
+  let coordinates = {}
+  coordinates.startLat = data.routes[0].legs[0].start_location.lat;
+  coordinates.startLng = data.routes[0].legs[0].start_location.lng;
+  coordinates.endLat = data.routes[0].legs[0].end_location.lat;
+  coordinates.endLng = data.routes[0].legs[0].end_location.lng;
+  return coordinates;
+};
+
+module.exports = { getData, getDistance, getCoordinates };

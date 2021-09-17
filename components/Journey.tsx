@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { getDistance } from "../dbfunctions/api-functions";
-import MapView from 'react-native-maps';
+import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 export type Props = {
   navigation?: string;
@@ -13,39 +13,56 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [toInput, setToInput] = useState('');
   const [distance, setDistance] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
+  const [coordinates, setCoordinates] = useState({})
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput).then((res) => {
       setDistance(res);
     }).catch((err) => {
       setHasErrored(true);
-    });
-  }
+    })
 
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text style={styles.from}>From:</Text>
-        <TextInput
-          defaultValue={fromInput}
-          placeholder="PostCode/Location"
-          style={styles.input}
-          onChangeText={(fromInput) => setFromInput(fromInput)}
-        />
-        <Text style={styles.to}>To:</Text>
-        <TextInput
-          defaultValue={toInput}
-          placeholder="PostCode/Location"
-          style={styles.input}
-          onChangeText={(toInput) => setToInput(toInput)}
-        />
-        <Button title="Submit" color="black" onPress={handleSubmit} />
-        {distance && <Text>{distance}</Text>}
-        <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
+    getCoordinates(fromInput, toInput).then((res) => {
+      setCoordinates(res)
 
-        <MapView style={styles.mapView} />
+    }).catch((err) => {
+      setHasErrored(true);
+    })
+  };
+  console.log(coordinates.startLat, "outside Coordinates");
 
-      </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.from}>From:</Text>
+      <TextInput
+        defaultValue={fromInput}
+        placeholder="PostCode/Location"
+        style={styles.input}
+        onChangeText={(fromInput) => setFromInput(fromInput)}
+      />
+      <Text style={styles.to}>To:</Text>
+      <TextInput
+        defaultValue={toInput}
+        placeholder="PostCode/Location"
+        style={styles.input}
+        onChangeText={(toInput) => setToInput(toInput)}
+      />
+      <Button title="Submit" color="black" onPress={handleSubmit} />
+      {distance && <Text>{distance}</Text>}
+      <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
+
+      <MapView style={styles.mapView}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation
+        initialRegion={{
+          latitude: coordinates.startLat,
+          longitude: coordinates.startLng,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }} />
+
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -71,7 +88,7 @@ const styles = StyleSheet.create({
   },
   mapView: {
     width: Dimensions.get('window').width,
-    height: 200
+    height: 200,
   }
 });
 
