@@ -16,12 +16,12 @@ import Journey from "../components/Journey";
 const Stack = createNativeStackNavigator();
 
 export default function Navigation({
-  props,
+  // props,
   colorScheme,
 }: {
   colorScheme: ColorSchemeName;
 }) {
-  const [userVehicle, setUserVehicle] = useState({});
+  // const [userVehicle, setUserVehicle] = useState({});
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
@@ -29,14 +29,14 @@ export default function Navigation({
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="GroupDetails" component={GroupDetails} />
 
-        <Stack.Screen name="UserDetails">
-          {(props) => (
+        <Stack.Screen name="UserDetails" component={UserDetails} />
+        {/* { {(props) => (
             <UserDetails
               userVehicle={userVehicle}
               setUserVehicle={setUserVehicle}
             />
-          )}
-        </Stack.Screen>
+          )}}
+        {</Stack.Screen>  */}
 
         <Stack.Screen name="Home" component={HomeScreen} />
 

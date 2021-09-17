@@ -13,7 +13,7 @@ const UserDetails: React.FC<Props> = (
 
   const navigation = useNavigation();
 
-  const handleSubmit = () => { };
+  const handleSubmit = () => {};
 
   return (
     <View style={styles.container}>
