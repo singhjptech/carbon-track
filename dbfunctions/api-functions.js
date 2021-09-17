@@ -23,9 +23,10 @@ const getData = async (regNum) => {
 };
 
 const getDistance = (origin, destination) => {
-  return axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
+  axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
     .then((res) => {
-      console.log(`${origin} to ${destination} is ${res.data.routes[0].legs[0].distance.text}`);
+      const distance = res.data.routes[0].legs[0].distance.text;
+      return distance;
     }, (err) => {
       console.log(err, "<- GOOGLE ERROR!");
     });
