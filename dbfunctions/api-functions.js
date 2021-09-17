@@ -24,9 +24,10 @@ const getData = async (regNum) => {
 
 const getDistance = async (origin, destination) => {
   const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
+  console.log(data.geocoded_waypoints[0].place_id);
   const distance = data.routes[0].legs[0].distance.text;
-  console.log(distance, "distance from async");
   return distance;
 };
 
+getDistance('London', 'Edinburgh');
 module.exports = { getData, getDistance };
