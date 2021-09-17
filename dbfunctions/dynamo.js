@@ -50,7 +50,7 @@ const getCar = async () => {
             UserName: Auth.user.username
         }
     }).promise();
-    return vehicles.Vehicles;
+    return vehicles.Item.Vehicles;
 };
 
 const getUser = async () => {
@@ -61,7 +61,7 @@ const getUser = async () => {
         }
     }).promise();
 
-    return userAndVehicles;
+    return userAndVehicles.Item;
 };
 
 const addGroup = async (groupData) => {
@@ -121,4 +121,33 @@ const getGroup = async (groupName) => {
 
 }
 
-export { getTable, addCar, addGroup, getCar, getUser, addUserToGroup, getGroup, dynamodb }
+const getGroupEmissions = async (username) => {
+    const emissions = await dynamodb.get({
+        TableName: 'UserData',
+        Key: {
+            UserName: username
+        }
+    }).promise();
+    return {TotalEmissions: emissions.Item.TotalEmissions,
+            EmissionsSaved: emissions.Item.EmissionsSaved };
+}
+
+const updateEmissions = async (newEmissions) => {
+    const oldEmissions = await dynamodb.get({
+        TableName: 'UserData',
+        Key: {
+            UserName: Auth.user.username
+        }}).promise();
+    
+    const {TotalEmissions:oldTotal, EmissionsSaved:oldSaved} = oldEmissions.Item;
+
+    await dynamodb.put({
+        TableName: 'UserData',
+        Item: {
+            UserName: Auth.user.username,
+            TotalEmissions: oldTotal + newEmissions.emissions,
+            EmissionsSaved: oldSaved + newEmissions.savedEmissions
+        }}).promise();
+}
+
+export { getTable, addCar, addGroup, getCar, getUser, addUserToGroup, getGroup, getGroupEmissions, updateEmissions, dynamodb }
