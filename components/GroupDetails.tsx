@@ -2,40 +2,42 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { addGroup } from "../dbfunctions/dynamo";
+import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
 const UserDetails: React.FC<Props> = (
   {
     // navigation
   }
 ) => {
-  const [createGroupCode, setCreateGroupCode] = useState(0);
+  const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
   const [joinGroupCode, setJoinGroupCode] = useState(0);
   const [joinGroupName, setJoinGroupName] = useState("");
   const [joinGroup, setJoinGroup] = useState({});
+  const [hasErrored, setHasErrored] = useState(false);
+
   const navigation = useNavigation();
 
   const handleCreateSubmit = () => {
     const newGroup = { ...createGroup };
-    newGroup.groupCode = createGroupCode;
-    newGroup.groupName = createGroupName;
+    newGroup.GroupCode = createGroupCode;
+    newGroup.GroupName = createGroupName;
+    console.log(newGroup, "new group");
+    addGroup(newGroup).catch((err) => setHasErrored(true));
     setCreateGroup(newGroup);
-    console.log(createGroup, "new state of create group");
-
-    // addGroup(createGroup);
+    console.log(createGroup, "state");
+    setCreateGroupCode(null);
+    setCreateGroupName("");
   };
 
   const handleJoinSubmit = () => {
     const newGroup = { ...joinGroup };
-    newGroup.groupCode = joinGroupCode;
-    newGroup.groupName = joinGroupName;
+    newGroup.GroupCode = joinGroupCode;
+    newGroup.GroupName = joinGroupName;
+    addUserToGroup(newGroup).catch((err) => setHasErrored(true));
+    console.log(newGroup, "join group");
     setJoinGroup(newGroup);
-    console.log(joinGroup, "new state of join group");
   };
-
-  console.log(joinGroupCode);
-  console.log(joinGroupName);
 
   return (
     <SafeAreaView style={styles.container}>
