@@ -22,14 +22,11 @@ const getData = async (regNum) => {
   return vehicleData;
 };
 
-const getDistance = (origin, destination) => {
-  axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
-    .then((res) => {
-      const distance = res.data.routes[0].legs[0].distance.text;
-      return distance;
-    }, (err) => {
-      console.log(err, "<- GOOGLE ERROR!");
-    });
+const getDistance = async (origin, destination) => {
+  const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`)
+  const distance = data.routes[0].legs[0].distance.text;
+  console.log(distance, "distance from async");
+  return distance;
 };
 
 module.exports = { getData, getDistance };
