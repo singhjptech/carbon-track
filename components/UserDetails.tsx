@@ -15,7 +15,6 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputReg, "input reg plate");
     getData(inputReg)
       .then((vehicle) => {
         setUserVehicle(vehicle);
