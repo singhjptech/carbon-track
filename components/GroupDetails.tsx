@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
 const UserDetails: React.FC<Props> = (
@@ -24,6 +31,7 @@ const UserDetails: React.FC<Props> = (
     newGroup.GroupName = createGroupName;
     console.log(newGroup, "new group");
     addGroup(newGroup).catch((err) => setHasErrored(true));
+    //nothing executed after addGroup called
     setCreateGroup(newGroup);
     console.log(createGroup, "state");
     setCreateGroupCode(null);
@@ -46,49 +54,48 @@ const UserDetails: React.FC<Props> = (
         <View style={styles.formContainer}>
           <Text style={styles.formLabel}>code:</Text>
           <TextInput
-            placeholder={"enter 4 digits"}
+            placeholder={"1234"}
             style={styles.formInput}
             onChangeText={(createGroupCode) =>
               setCreateGroupCode(createGroupCode)
             }
           />
-        </View>
-        <View style={styles.formContainer}>
-          <Text>group name:</Text>
+          <Text style={styles.formLabel}>group name:</Text>
           <TextInput
-            placeholder={"enter group name"}
+            placeholder={"asynchrosaurus"}
             style={styles.formInput}
             onChangeText={(createGroupName) =>
               setCreateGroupName(createGroupName)
             }
           />
+          <Pressable style={styles.buttonForm} onPress={handleCreateSubmit}>
+            <Text style={styles.buttonFormText}>Create</Text>
+          </Pressable>
         </View>
-        <Button title="Create" color="black" onPress={handleCreateSubmit} />
         <Text style={styles.title}>Join Group:</Text>
         <View style={styles.formContainer}>
           <Text style={styles.formLabel}>code:</Text>
           <TextInput
-            placeholder="enter group code"
+            placeholder="4321"
             style={styles.formInput}
             onChangeText={(joinGroupCode) => setJoinGroupCode(joinGroupCode)}
           />
-        </View>
-        <View style={styles.formContainer}>
-          <Text>group name:</Text>
+          <Text style={styles.formLabel}>group name:</Text>
           <TextInput
-            placeholder={"enter group name"}
+            placeholder={"green team"}
             style={styles.formInput}
             onChangeText={(joinGroupName) => setJoinGroupName(joinGroupName)}
           />
+          <Pressable style={styles.buttonForm} onPress={handleJoinSubmit}>
+            <Text style={styles.buttonFormText}>Join</Text>
+          </Pressable>
         </View>
-        <Button title="Join" color="black" onPress={handleJoinSubmit} />
-      </View>
-      <View style={styles.footer}>
-        <Button
-          title="Next"
-          color="black"
+        <Pressable
+          style={styles.buttonForm}
           onPress={() => navigation.navigate("UserDetails")}
-        />
+        >
+          <Text style={styles.buttonFormText}>Ridin' Solo</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -98,34 +105,74 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    // borderWidth: 4,
+    // borderColor: "red",
+    backgroundColor: "white",
   },
   form: {
-    justifyContent: "flex-start",
-  },
-  formContainer: {
-    flexDirection: "row",
+    flex: 5,
     justifyContent: "center",
-    height: 20,
-  },
-  formLabel: {
-    marginLeft: 45,
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "green",
+    width: "80%",
   },
   title: {
-    fontSize: 20,
+    textAlign: "center",
+    fontSize: 32,
     fontWeight: "bold",
     marginBottom: 16,
   },
+  formContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: 250,
+    borderWidth: 2,
+    borderColor: "blue",
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    margin: 20,
+    width: "90%",
+  },
+  formLabel: {
+    marginTop: 5,
+    marginBottom: 5,
+    fontSize: 20,
+    textAlign: "center",
+  },
+
   formInput: {
+    textAlign: "center",
+    color: "black",
     borderColor: "black",
     borderWidth: 1,
-    borderRadius: 4,
-    width: 100,
-    marginLeft: 5,
+    borderRadius: 8,
+    backgroundColor: "white",
+    height: 40,
+    width: 160,
   },
-  footer: {
-    flex: 1,
-    justifyContent: "flex-end",
+  buttonForm: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    marginTop: 15,
+    marginBottom: 15,
   },
+  buttonFormText: {
+    color: "white",
+    fontSize: 20,
+  },
+  // footer: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   borderWidth: 2,
+  //   borderColor: "orange",
+  // },
 });
 
 export default UserDetails;
