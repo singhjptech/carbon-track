@@ -1,28 +1,38 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { getDistance } from "../dbfunctions/api-functions";
+import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
+export type Props = {
+  navigation?: string;
+};
 
 const Journey: React.FC<Props> = ({ navigation }) => {
   const [fromInput, setFromInput] = useState('');
   const [toInput, setToInput] = useState('');
   const [distance, setDistance] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
+  const [coordinates, setCoordinates] = useState({})
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput).then((res) => {
-      console.log(res, "<- handle Submit response");
-
       setDistance(res);
     }).catch((err) => {
       setHasErrored(true);
-    });
+    })
+
+    getCoordinates(fromInput, toInput).then((res) => {
+      setCoordinates(res)
+
+    }).catch((err) => {
+      setHasErrored(true);
+    })
   };
-  console.log(distance, "<- outside distance");
+  console.log(coordinates.startLat, "outside Coordinates");
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.from}>From:</Text>
       <TextInput
         defaultValue={fromInput}
@@ -41,8 +51,17 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       {distance && <Text>{distance}</Text>}
       <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
 
+      <MapView style={styles.mapView}
+        provider={PROVIDER_GOOGLE}
+        showsUserLocation
+        initialRegion={{
+          latitude: coordinates.startLat,
+          longitude: coordinates.startLng,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }} />
 
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -50,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   from: {
     fontSize: 20,
@@ -67,6 +86,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 100,
   },
+  mapView: {
+    width: Dimensions.get('window').width,
+    height: 200,
+  }
 });
 
 export default Journey;
