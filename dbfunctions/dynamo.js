@@ -16,10 +16,11 @@ const getTable = async () => {
   return users;
 };
 const addCar = async (car) => {
-  const userData = await dynamodb
+ try{
+    const userData = await dynamodb
     .get({
       TableName: "UserData",
-      AttributesToGet: ["Vehicles"],
+
       Key: {
         UserName: Auth.user.username,
       },
@@ -42,6 +43,7 @@ const addCar = async (car) => {
           ],
           TotalEmissions: 0,
           EmissionsSaved: 0,
+          Journey: []
         },
       })
       .promise();
@@ -56,12 +58,17 @@ const addCar = async (car) => {
       .put({
         TableName: "UserData",
         Item: {
-          UserName: Auth.user.username,
-          Vehicles: userData.Item.Vehicles,
-        },
-      })
+            UserName: Auth.user.username,
+            Vehicles: userData.Item.Vehicles,
+            EmissionsSaved: userData.Item.EmissionsSaved,
+            TotalEmissions: userData.Item.TotalEmissions,
+            Journey: userData.Item.Journey
+        }})
       .promise();
   }
+ } catch (err) {
+     console.log(err);
+ }
 };
 
 const getCar = async () => {
@@ -200,6 +207,7 @@ const updateEmissions = async (newEmissions) => {
       TableName: "UserData",
       Item: {
         UserName: Auth.user.username,
+        Vehicles: oldEmissions.Item.Vehicles,
         TotalEmissions: oldTotal + newEmissions.emissions,
         EmissionsSaved: oldSaved + newEmissions.savedEmissions,
       },
