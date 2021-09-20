@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
-import MapView, { Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
 
@@ -32,6 +32,21 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       setHasErrored(true);
     })
   };
+
+  // const fromAndTo = () => {
+  //   const {
+  //     latitude,
+  //     longitude,
+  //     desLatitude.
+  //     desLongitude
+  //   } = coordinates;
+  //   const hasFromAndTO = latitude !== null && desLatitude !== null
+  //   if (hasFromAndTO) {
+  //     const concatFrom = 
+  //   }
+  // }
+
+  
 
 
   return (
