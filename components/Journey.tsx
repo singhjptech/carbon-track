@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+
+
 
 export type Props = {
   navigation?: string;
@@ -29,7 +32,22 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       setHasErrored(true);
     })
   };
-  console.log(coordinates.startLat, "outside Coordinates");
+
+  // const fromAndTo = () => {
+  //   const {
+  //     latitude,
+  //     longitude,
+  //     desLatitude.
+  //     desLongitude
+  //   } = coordinates;
+  //   const hasFromAndTO = latitude !== null && desLatitude !== null
+  //   if (hasFromAndTO) {
+  //     const concatFrom = 
+  //   }
+  // }
+
+  
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,15 +69,24 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       {distance && <Text>{distance}</Text>}
       <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
 
-      <MapView style={styles.mapView}
+      
+        <MapView style={styles.mapView}
         provider={PROVIDER_GOOGLE}
-        showsUserLocation
         initialRegion={{
-          latitude: coordinates.startLat,
-          longitude: coordinates.startLng,
+          latitude: 53.481162,
+          longitude: -2.244259,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
-        }} />
+           }} >
+          <Marker
+          coordinate={{ latitude: 53.472133, longitude: -2.238486 }}
+          title={'Northcoders Manchester'}
+          />
+
+         </MapView>
+        
+    
+        
 
     </SafeAreaView>
   );
