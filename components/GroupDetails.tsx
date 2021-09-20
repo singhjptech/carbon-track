@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { addGroup, addUserToGroup } from '../dbfunctions/dynamo'
 const UserDetails: React.FC<Props> = (
   {
     // navigation
@@ -15,7 +16,6 @@ const UserDetails: React.FC<Props> = (
   const navigation = useNavigation();
 
   const handleSubmit = () => {};
-
   return (
     <View style={styles.container}>
       <Text style={styles.make}>Create Group:</Text>
