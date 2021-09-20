@@ -23,8 +23,8 @@ const addCar = async (car) => {
             UserName: Auth.user.username
         }
     }).promise();
-
     if (Object.keys(userData).length === 0) {
+
         await dynamodb.put({
             TableName: 'UserData',
             Item: {
