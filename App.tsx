@@ -7,6 +7,7 @@ import awsconfig from "./src/aws-exports.js";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
+import { ScrollView } from "react-native-gesture-handler";
 Amplify.configure({ ...awsconfig, Analytics: { disabled: true } });
 
 function App() {

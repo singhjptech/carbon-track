@@ -1,5 +1,5 @@
 import { Auth } from "aws-amplify";
-const AWS = require('aws - sdk');
+const AWS = require('aws-sdk');
 let dynamodb;
 Auth.currentUserCredentials().then((cred) => {
     AWS.config.update({
@@ -10,6 +10,7 @@ Auth.currentUserCredentials().then((cred) => {
     });
     dynamodb = new AWS.DynamoDB.DocumentClient();
 });
+
 const getTable = async () => {
     const users = await dynamodb.scan({ TableName: 'UserData' }).promise();
     return users;
@@ -157,7 +158,7 @@ const addUserToGroup = async (groupData) => {
             }
         }
     }
-};
+}
 const getGroup = async (groupName) => {
     return await dynamodb
         .get({
