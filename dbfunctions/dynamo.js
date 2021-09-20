@@ -20,11 +20,13 @@ const addCar = async (car) => {
     const userData = await dynamodb
     .get({
       TableName: "UserData",
+
       Key: {
         UserName: Auth.user.username,
       },
     })
     .promise();
+
   if (Object.keys(userData).length === 0) {
     await dynamodb
       .put({
@@ -67,8 +69,6 @@ const addCar = async (car) => {
  } catch (err) {
      console.log(err);
  }
-
-
 };
 
 const getCar = async () => {
