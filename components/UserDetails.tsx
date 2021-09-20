@@ -24,8 +24,8 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
       .catch((err) => {
         setHasErrored(true);
         setUserVehicle(null);
-      })
-      addCar();
+      });
+    addCar();
   };
 
   const handleReEnter = () => {
@@ -70,7 +70,12 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
             </View>
             <Pressable
               style={styles.buttonForm}
-              onPress={() => navigation.navigate("Home", { userVehicle })}
+              onPress={() =>
+                navigation.navigate(
+                  "GroupDetails"
+                  // , { userVehicle }
+                )
+              }
             >
               <Text style={styles.buttonFormText}>Confirm</Text>
             </Pressable>
