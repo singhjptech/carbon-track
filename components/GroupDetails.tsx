@@ -7,7 +7,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
-  const [joinGroupCode, setJoinGroupCode] = useState(0);
+  const [joinGroupCode, setJoinGroupCode] = useState(null);
   const [joinGroupName, setJoinGroupName] = useState("");
   const [joinGroup, setJoinGroup] = useState({});
   const [hasErrored, setHasErrored] = useState(false);
@@ -19,12 +19,15 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
     newGroup.GroupCode = createGroupCode;
     newGroup.GroupName = createGroupName;
     console.log(newGroup, "new group");
-    addGroup(newGroup).catch((err) => setHasErrored(true));
+    addGroup(newGroup)
+      .then(() => {
+        setCreateGroup(newGroup);
+        console.log(createGroup, "state");
+        setCreateGroupCode(null);
+        setCreateGroupName("");
+      })
+      .catch((err) => setHasErrored(true));
     //nothing executed after addGroup called
-    setCreateGroup(newGroup);
-    console.log(createGroup, "state");
-    setCreateGroupCode(null);
-    setCreateGroupName("");
   };
 
   const handleJoinSubmit = () => {
@@ -102,8 +105,8 @@ const styles = StyleSheet.create({
     flex: 5,
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
-    borderColor: "green",
+    // borderWidth: 2,
+    // borderColor: "green",
     width: "80%",
   },
   title: {
@@ -116,8 +119,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 250,
-    borderWidth: 2,
-    borderColor: "blue",
+    // borderWidth: 2,
+    // borderColor: "blue",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     margin: 20,
