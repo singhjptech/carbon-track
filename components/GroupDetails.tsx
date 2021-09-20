@@ -1,20 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import {
-  Button,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
-const UserDetails: React.FC<Props> = (
-  {
-    // navigation
-  }
-) => {
+const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
@@ -23,7 +12,7 @@ const UserDetails: React.FC<Props> = (
   const [joinGroup, setJoinGroup] = useState({});
   const [hasErrored, setHasErrored] = useState(false);
 
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
 
   const handleCreateSubmit = () => {
     const newGroup = { ...createGroup };
@@ -167,12 +156,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
-  // footer: {
-  //   flex: 1,
-  //   justifyContent: "center",
-  //   borderWidth: 2,
-  //   borderColor: "orange",
-  // },
 });
 
 export default UserDetails;
