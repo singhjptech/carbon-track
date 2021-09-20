@@ -84,7 +84,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
         </View>
         <Pressable
           style={styles.buttonForm}
-          onPress={() => navigation.navigate("UserDetails")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonFormText}>Ridin' Solo</Text>
         </Pressable>
@@ -105,8 +105,6 @@ const styles = StyleSheet.create({
     flex: 5,
     justifyContent: "center",
     alignItems: "center",
-    // borderWidth: 2,
-    // borderColor: "green",
     width: "80%",
   },
   title: {
