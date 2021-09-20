@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 4,
-    borderColor: "red",
+    // borderWidth: 4,
+    // borderColor: "red",
     backgroundColor: "white",
   },
   regInputTitle: {
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: 450,
-    borderWidth: 2,
-    borderColor: "blue",
+    // borderWidth: 2,
+    // borderColor: "blue",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     margin: 20,
@@ -150,8 +150,8 @@ const styles = StyleSheet.create({
   confirmContainer: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "red",
+    // borderWidth: 2,
+    // borderColor: "red",
   },
   confirmContainerText: {
     textAlign: "left",
