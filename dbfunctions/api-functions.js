@@ -1,4 +1,4 @@
-cconst axios = require("axios");
+const axios = require("axios");
 const { googleAPI, dvlaAPI } = require('./apikeys');
 
 const getData = async (regNum) => {
