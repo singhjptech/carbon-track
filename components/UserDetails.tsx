@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getData } from "../dbfunctions/api-functions.js";
 import { addCar } from "../dbfunctions/dynamo.js";
@@ -20,12 +20,12 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
         setUserVehicle(vehicle);
         setInputReg("");
         setHasErrored(false);
+        addCar(vehicle);
       })
       .catch((err) => {
         setHasErrored(true);
         setUserVehicle(null);
       });
-    addCar();
   };
 
   const handleReEnter = () => {
@@ -34,27 +34,37 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>Carbon-Offset</Text>
+      <Image
+        style={styles.image}
+        source={require("../src/icons/D7E7E1/car.png")}
+      />
       <View style={styles.formContainer}>
-        <Text style={styles.regInputTitle}>Enter Vehicle Registration:</Text>
-        <TextInput
-          autoCapitalize="characters"
-          defaultValue={inputReg}
-          placeholder="AA19AAA"
-          style={styles.input}
-          onChangeText={(inputReg) => setInputReg(inputReg)}
-        />
+        {!userVehicle ? (
+          <Text style={styles.regInputTitle}>Enter Vehicle Registration:</Text>
+        ) : (
+          <Text style={styles.regInputTitle}>Your Vehicle Details:</Text>
+        )}
         {hasErrored && (
           <Text style={styles.inputError}>Error, invalid input</Text>
         )}
         {!userVehicle && (
-          <Pressable style={styles.buttonForm} onPress={handleSubmit}>
-            <Text style={styles.buttonFormText}>Submit</Text>
-          </Pressable>
+          <>
+            <TextInput
+              autoCapitalize="characters"
+              defaultValue={inputReg}
+              placeholder="AA19AAA"
+              style={styles.input}
+              onChangeText={(inputReg) => setInputReg(inputReg)}
+            />
+            <Pressable style={styles.buttonForm} onPress={handleSubmit}>
+              <Text style={styles.buttonFormText}>Search</Text>
+            </Pressable>
+          </>
         )}
 
         {userVehicle && (
           <View style={styles.confirmContainer}>
-            <Text style={styles.confirmTitle}>Your Vehicle Details</Text>
             <View style={styles.confirmContainerText}>
               <Text style={styles.confirmText}>Make: {userVehicle.make}</Text>
               <Text style={styles.confirmText}>
@@ -77,7 +87,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
                 )
               }
             >
-              <Text style={styles.buttonFormText}>Confirm</Text>
+              <Text style={styles.buttonFormText}>Add</Text>
             </Pressable>
             <Pressable style={styles.buttonReEnter} onPress={handleReEnter}>
               <Text style={styles.buttonReEnterText}>Re-Enter</Text>
@@ -85,12 +95,6 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
           </View>
         )}
       </View>
-
-      <Button
-        title="Back"
-        color="black"
-        onPress={() => navigation.navigate("GroupDetails")}
-      />
     </View>
   );
 };
@@ -100,26 +104,27 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 4,
-    // borderColor: "red",
     backgroundColor: "white",
+  },
+  header: {
+    textAlign: "center",
+    fontSize: 32,
+    fontWeight: "bold",
   },
   regInputTitle: {
     textAlign: "center",
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "bold",
     marginBottom: 16,
   },
   formContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: 450,
-    // borderWidth: 2,
-    // borderColor: "blue",
+    height: "40%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     margin: 20,
-    width: "90%",
+    width: "80%",
   },
   inputError: {
     fontSize: 16,
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     backgroundColor: "white",
-    height: 40,
+    height: "10%",
     width: 160,
   },
   buttonForm: {
@@ -155,8 +160,6 @@ const styles = StyleSheet.create({
   confirmContainer: {
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 2,
-    // borderColor: "red",
   },
   confirmContainerText: {
     textAlign: "left",
@@ -186,6 +189,10 @@ const styles = StyleSheet.create({
   buttonReEnterText: {
     color: "#2F4847",
     fontSize: 20,
+  },
+  image: {
+    height: 150,
+    width: 250,
   },
 });
 
