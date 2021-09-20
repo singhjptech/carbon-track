@@ -3,7 +3,6 @@ import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-
 import { TextInput } from "react-native-gesture-handler";
 import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
-import Geolocation from '@react-native-community/geolocation';
 
 
 
@@ -16,7 +15,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [toInput, setToInput] = useState('');
   const [distance, setDistance] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
-  const [coordinates, setCoordinates] = useState({})
+  const [coords, setCoords] = useState({})
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput).then((res) => {
@@ -26,28 +25,14 @@ const Journey: React.FC<Props> = ({ navigation }) => {
     })
 
     getCoordinates(fromInput, toInput).then((res) => {
-      setCoordinates(res)
+      setCoords(res)
 
     }).catch((err) => {
       setHasErrored(true);
     })
   };
-
-  // const fromAndTo = () => {
-  //   const {
-  //     latitude,
-  //     longitude,
-  //     desLatitude.
-  //     desLongitude
-  //   } = coordinates;
-  //   const hasFromAndTO = latitude !== null && desLatitude !== null
-  //   if (hasFromAndTO) {
-  //     const concatFrom = 
-  //   }
-  // }
-
-  
-
+   
+ 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,6 +54,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       {distance && <Text>{distance}</Text>}
       <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
 
+
       
         <MapView style={styles.mapView}
         provider={PROVIDER_GOOGLE}
@@ -79,13 +65,26 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           longitudeDelta: 0.0421,
            }} >
           <Marker
-          coordinate={{ latitude: 53.472133, longitude: -2.238486 }}
-          title={'Northcoders Manchester'}
+          coordinate={{ latitude: coords.startLat, longitude: coords.startLng }}
+          pinColor={'black'}
           />
-
+          <Polyline
+          coordinates={[
+            { latitude: coords.startLat, longitude: coords.startLng },
+            { latitude: coords.endLat, longitude: coords.endLng },
+          ]}
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={[
+            '#E5845C',
+          ]}
+          strokeWidth={6}
+          />
+          <Marker
+          coordinate={{ latitude: coords.endLat, longitude: coords.endLng }}
+          title={'End of Carbon Offset'}
+          />
          </MapView>
         
-    
         
 
     </SafeAreaView>
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
   },
   mapView: {
     width: Dimensions.get('window').width,
-    height: 200,
+    height: 300,
   }
 });
 

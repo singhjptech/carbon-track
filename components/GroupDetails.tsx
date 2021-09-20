@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
+
+
 const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
