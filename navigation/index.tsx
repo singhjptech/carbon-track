@@ -4,8 +4,8 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import React from "react";
+import { ColorSchemeName } from "react-native";
 
 import UserDetails from "../components/UserDetails";
 import GroupDetails from "../components/GroupDetails";
@@ -16,12 +16,10 @@ import Journey from "../components/Journey";
 const Stack = createNativeStackNavigator();
 
 export default function Navigation({
-  // props,
   colorScheme,
 }: {
   colorScheme: ColorSchemeName;
 }) {
-  // const [userVehicle, setUserVehicle] = useState({});
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
@@ -30,23 +28,12 @@ export default function Navigation({
         <Stack.Screen name="GroupDetails" component={GroupDetails} />
 
         <Stack.Screen name="UserDetails" component={UserDetails} />
-        {/* { {(props) => (
-            <UserDetails
-              userVehicle={userVehicle}
-              setUserVehicle={setUserVehicle}
-            />
-          )}}
-        {</Stack.Screen>  */}
 
         <Stack.Screen name="Home" component={HomeScreen} />
 
         <Stack.Screen name="User" component={User} />
 
-        <Stack.Screen
-          name="Journey"
-          component={Journey}
-          options={{ title: "Your Journey Details" }}
-        />
+        <Stack.Screen name="Journey" component={Journey} />
       </Stack.Navigator>
     </NavigationContainer>
   );
