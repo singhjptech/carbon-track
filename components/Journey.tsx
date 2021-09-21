@@ -6,9 +6,11 @@ import {
   Image,
   Dimensions,
   SafeAreaView,
+  View,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getDistance, getCoordinates, getSteps } from "../dbfunctions/api-functions";
+import { getCar } from "../dbfunctions/dynamo.js";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 
 export type Props = {
@@ -22,6 +24,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [hasErrored, setHasErrored] = useState(false);
   const [coords, setCoords] = useState({});
   const [steps, setSteps] = useState([]);
+  const [userVehicle, setUserVehicle] = useState(null);
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput).then((res) => {
@@ -42,8 +45,13 @@ const Journey: React.FC<Props> = ({ navigation }) => {
     }).catch((err) => {
       setHasErrored(true);
     })
-  };
 
+    getCar().then((res) => {
+      setUserVehicle(res)
+    }).catch((err) => {
+      setHasErrored(true);
+    })
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -66,7 +74,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         onChangeText={(toInput) => setToInput(toInput)}
       />
       <Button title="Submit" color="black" onPress={handleSubmit} />
-      {distance && <Text>{distance}</Text>}
+
       <Button
         title="Back"
         color="black"
@@ -100,6 +108,10 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         />
       </MapView>
 
+      {userVehicle && <View style={styles.calcContainer}>
+        <Text style={styles.calcTitle}>Your disgraceful contribution:</Text>
+        <Text style={styles.calcText}>{distance * userVehicle[0].emissions} g/KM</Text>
+      </View>}
 
     </SafeAreaView>
   );
@@ -137,6 +149,27 @@ const styles = StyleSheet.create({
   image: {
     height: 125,
     width: 175,
+  },
+  calcContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "40%",
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    margin: 20,
+    width: "80%",
+  },
+  calcText: {
+    color: "black",
+    fontSize: 20,
+  },
+  calcTitle: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 25,
+    marginBottom: 15,
+    textAlign: "center",
   }
 });
 
