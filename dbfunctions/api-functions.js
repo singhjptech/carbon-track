@@ -38,4 +38,17 @@ const getCoordinates = async (origin, destination) => {
   return coordinates;
 };
 
-module.exports = { getData, getDistance, getCoordinates };
+const getSteps = async (origin, destination) => {
+  const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`);
+  const steps = data.routes[0].legs[0].steps;
+  const directions = steps.map((step) => {
+    let endCoords = { latitude: 0, longitude: 0 };
+    endCoords.latitude = step.end_location.lat;
+    endCoords.longitude = step.end_location.lng;
+    return endCoords;
+  })
+  console.log("STEEEEEEEEPPPPPPPPPSSSSSS -------->", directions, "<------------------STEEEEEEEEPPPPPPPPPSSSSSS");
+  return directions;
+}
+
+module.exports = { getData, getDistance, getCoordinates, getSteps };
