@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "./Header";
 import Goals from "./Goals";
@@ -19,10 +19,21 @@ const HomeScreen: React.FC<Props> = ({
   // console.log(userVehicle, "VEHICLE");
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} />
-      <View style={styles.smallCard}>
-        <Goals />
+      <View style={styles.headerContainer}>
+        <Pressable
+          style={styles.buttonUser}
+          onPress={() => navigation.navigate("User")}
+        >
+          <Text style={styles.buttonUserText}>User</Text>
+        </Pressable>
+        <Image
+          style={styles.logo}
+          source={require("../src/icons/carbontrack.png")}
+        />
       </View>
+      {/* <View style={styles.smallCard}>
+        <Goals />
+      </View> */}
       <View style={styles.card}>
         <Estimate navigation={navigation} />
       </View>
@@ -42,6 +53,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
+  },
+  headerContainer: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-around",
+    textAlign: "center",
+    width: "90%",
+    height: 60,
+  },
+  buttonUser: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 80,
+  },
+  buttonUserText: {
+    color: "white",
+    fontSize: 20,
+  },
+  logo: {
+    height: 35,
+    width: 240,
+    padding: 0,
+    margin: 0,
   },
   card: {
     flex: 4,

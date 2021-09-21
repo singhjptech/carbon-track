@@ -10,10 +10,10 @@ import {
 import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
 export type Props = {
-  navigation?: any,
-  currUser?: any,
-  setCurrUser?: any,
-  route?: any
+  navigation?: any;
+  currUser?: any;
+  setCurrUser?: any;
+  route?: any;
 };
 
 const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
@@ -46,14 +46,19 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
     const newGroup = { ...joinGroup };
     newGroup.GroupCode = joinGroupCode;
     newGroup.GroupName = joinGroupName;
-    addUserToGroup(newGroup, currUser, setCurrUser).catch((err) => setHasErrored(true));
+    addUserToGroup(newGroup, currUser, setCurrUser).catch((err) =>
+      setHasErrored(true)
+    );
     console.log(newGroup, "join group");
     setJoinGroup(newGroup);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Carbon-Offset</Text>
+      <Image
+        style={styles.logo}
+        source={require("../src/icons/carbontrack.png")}
+      />
       <View style={styles.form}>
         <Text style={styles.title}>Create Group:</Text>
         <View style={styles.formContainer}>
@@ -120,18 +125,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
   },
-  header: {
-    textAlign: "center",
-    fontSize: 32,
-    fontWeight: "bold",
-  },
   form: {
     flex: 5,
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
-    // borderColor: "red",
-    // borderWidth: 2,
   },
   title: {
     textAlign: "center",
@@ -153,7 +151,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
-
   formInput: {
     fontSize: 18,
     textAlign: "center",
@@ -193,6 +190,12 @@ const styles = StyleSheet.create({
     width: 110,
     marginTop: 15,
     marginBottom: 15,
+  },
+  logo: {
+    height: 35,
+    width: 240,
+    padding: 0,
+    marginBottom: 16,
   },
   image: {
     height: 125,

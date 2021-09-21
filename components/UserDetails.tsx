@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getData } from "../dbfunctions/api-functions.js";
 import { addCar } from "../dbfunctions/dynamo.js";
@@ -33,12 +40,13 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Carbon-Offset</Text>
-      <Image
-        style={styles.image}
-        source={require("../src/icons/D7E7E1/car.png")}
-      />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Image
+          style={styles.logo}
+          source={require("../src/icons/carbontrack.png")}
+        />
+      </View>
       <View style={styles.formContainer}>
         {!userVehicle ? (
           <Text style={styles.regInputTitle}>Enter Vehicle Registration:</Text>
@@ -74,8 +82,8 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.confirmText}>
                 Fuel Type: {userVehicle.fuelType}
               </Text>
-              <Text style={styles.confirmText}>
-                C02 Emissions: {userVehicle.emissions}
+              <Text style={styles.text}>
+                CO2 Emissions: {userVehicle.emissions}
               </Text>
             </View>
             <Pressable
@@ -95,7 +103,13 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
           </View>
         )}
       </View>
-    </View>
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={require("../src/icons/D7E7E1/car.png")}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -103,13 +117,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: "white",
   },
-  header: {
+  headerContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
     textAlign: "center",
-    fontSize: 32,
-    fontWeight: "bold",
+    width: "90%",
+    height: 60,
   },
   regInputTitle: {
     textAlign: "center",
@@ -118,6 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   formContainer: {
+    flex: 2,
     justifyContent: "center",
     alignItems: "center",
     height: "40%",
@@ -174,6 +192,10 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     marginBottom: 5,
   },
+  text: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
   buttonReEnter: {
     alignItems: "center",
     justifyContent: "center",
@@ -190,9 +212,20 @@ const styles = StyleSheet.create({
     color: "#2F4847",
     fontSize: 20,
   },
+  logo: {
+    height: 40,
+    width: 275,
+    padding: 0,
+    marginTop: 30,
+  },
+  imageContainer: {
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   image: {
-    height: 150,
-    width: 250,
+    height: 200,
+    width: 350,
   },
 });
 
