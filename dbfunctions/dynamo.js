@@ -65,6 +65,7 @@ const addCar = async (car) => {
     } catch (err) {
         console.log(err);
     }
+
 };
 const getCar = async () => {
     const vehicles = await dynamodb
@@ -88,6 +89,7 @@ const getUser = async () => {
         })
         .promise();
     return userAndVehicles.Item;
+
 };
 const addGroup = async (groupData) => {
     const group = await dynamodb
@@ -124,6 +126,31 @@ const addUserToGroup = async (groupData) => {
             TableName: 'GroupData',
             Key: {
                 GroupName: groupData.GroupName,
+//   const group = await dynamodb
+//     .get({
+//       TableName: "GroupData",
+//       Key: {
+//         GroupName: groupData.GroupName,
+//       },
+//     })
+//     .promise();
+//   if (Object.keys(group).length === 0) {
+//     return false;
+//   } else {
+//     if (
+//       group.Item.GroupCode === groupData.GroupCode &&
+//       !group.Item.GroupMembers.includes(Auth.user.username)
+//     ) {
+//       group.Item.GroupMembers.push(Auth.user.username);
+//       try {
+//         await dynamodb
+//           .put({
+//             TableName: "GroupData",
+//             Item: {
+//               GroupCode: group.Item.GroupCode,
+//               GroupCreator: group.Item.GroupCreator,
+//               GroupName: group.Item.GroupName,
+//               GroupMembers: group.Item.GroupMembers,
             },
         })
         .promise();
@@ -154,6 +181,7 @@ const addUserToGroup = async (groupData) => {
         }
     }
 }
+
 const getGroup = async (groupName) => {
     return await dynamodb
         .get({
@@ -241,4 +269,5 @@ export {
     getGroupEmissions,
     updateEmissions,
     dynamodb,
+
 };

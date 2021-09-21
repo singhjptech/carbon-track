@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getData } from "../dbfunctions/api-functions.js";
 import { addCar } from "../dbfunctions/dynamo.js";
@@ -15,12 +15,12 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputReg, "input reg plate");
     getData(inputReg)
       .then((vehicle) => {
         setUserVehicle(vehicle);
-        addCar(vehicle);
         setInputReg("");
+        setHasErrored(false);
+        addCar(vehicle);
       })
       .catch((err) => {
         setHasErrored(true);
@@ -28,57 +28,103 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
       });
   };
 
+  const handleReEnter = () => {
+    setUserVehicle(null);
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.vehicleReg}>Enter Vehicle Registration:</Text>
-      <TextInput
-        autoCapitalize="characters"
-        defaultValue={inputReg}
-        placeholder="vehicle registration"
-        style={styles.input}
-        onChangeText={(inputReg) => setInputReg(inputReg)}
+      <Text style={styles.header}>Carbon-Offset</Text>
+      <Image
+        style={styles.image}
+        source={require("../src/icons/D7E7E1/car.png")}
       />
-      {hasErrored && (
-        <Text style={styles.inputError}>Error, invalid input</Text>
-      )}
-      {!userVehicle && (
-        <Button title="Submit" color="black" onPress={handleSubmit} />
-      )}
+      <View style={styles.formContainer}>
+        {!userVehicle ? (
+          <Text style={styles.regInputTitle}>Enter Vehicle Registration:</Text>
+        ) : (
+          <Text style={styles.regInputTitle}>Your Vehicle Details:</Text>
+        )}
+        {hasErrored && (
+          <Text style={styles.inputError}>Error, invalid input</Text>
+        )}
+        {!userVehicle && (
+          <>
+            <TextInput
+              autoCapitalize="characters"
+              defaultValue={inputReg}
+              placeholder="AA19AAA"
+              style={styles.input}
+              onChangeText={(inputReg) => setInputReg(inputReg)}
+            />
+            <Pressable style={styles.buttonForm} onPress={handleSubmit}>
+              <Text style={styles.buttonFormText}>Search</Text>
+            </Pressable>
+          </>
+        )}
 
-      {userVehicle && (
-        <View>
-          <Text>Make: {userVehicle.make}</Text>
-          <Text>Colour: {userVehicle.colour}</Text>
-          <Text>Year: {userVehicle.year}</Text>
-          <Text>Fuel Type: {userVehicle.fuelType}</Text>
-          <Text>C02 Emissions: {userVehicle.emissions}</Text>
-          <Button
-            title="Confirm"
-            color="black"
-            onPress={() => navigation.navigate("Home", { userVehicle })}
-          />
-        </View>
-      )}
-      <Button
-        title="Back"
-        color="black"
-        onPress={() => navigation.navigate("GroupDetails")}
-      />
+        {userVehicle && (
+          <View style={styles.confirmContainer}>
+            <View style={styles.confirmContainerText}>
+              <Text style={styles.confirmText}>Make: {userVehicle.make}</Text>
+              <Text style={styles.confirmText}>
+                Colour: {userVehicle.colour}
+              </Text>
+              <Text style={styles.confirmText}>Year: {userVehicle.year}</Text>
+              <Text style={styles.confirmText}>
+                Fuel Type: {userVehicle.fuelType}
+              </Text>
+              <Text style={styles.confirmText}>
+                C02 Emissions: {userVehicle.emissions}
+              </Text>
+            </View>
+            <Pressable
+              style={styles.buttonForm}
+              onPress={() =>
+                navigation.navigate(
+                  "GroupDetails"
+                  // , { userVehicle }
+                )
+              }
+            >
+              <Text style={styles.buttonFormText}>Add</Text>
+            </Pressable>
+            <Pressable style={styles.buttonReEnter} onPress={handleReEnter}>
+              <Text style={styles.buttonReEnterText}>Re-Enter</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "white",
   },
-  vehicleReg: {
-    fontSize: 20,
+  header: {
+    textAlign: "center",
+    fontSize: 32,
     fontWeight: "bold",
-    margin: 16,
+  },
+  regInputTitle: {
+    textAlign: "center",
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  formContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "40%",
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    margin: 20,
+    width: "80%",
   },
   inputError: {
     fontSize: 16,
@@ -86,9 +132,67 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   input: {
+    textAlign: "center",
+    color: "black",
     borderColor: "black",
     borderWidth: 1,
-    width: 150,
+    borderRadius: 8,
+    backgroundColor: "white",
+    height: "10%",
+    width: 160,
+  },
+  buttonForm: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  buttonFormText: {
+    color: "white",
+    fontSize: 20,
+  },
+  confirmContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  confirmContainerText: {
+    textAlign: "left",
+  },
+  confirmTitle: {
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  confirmText: {
+    fontSize: 16,
+    textTransform: "capitalize",
+    marginBottom: 5,
+  },
+  buttonReEnter: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  buttonReEnterText: {
+    color: "#2F4847",
+    fontSize: 20,
+  },
+  image: {
+    height: 150,
+    width: 250,
   },
 });
 

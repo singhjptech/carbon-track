@@ -19,11 +19,9 @@ const GroupStats: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 4,
-    flexDirection: "column",
-    backgroundColor: "steelblue",
   },
   groupStatsText: {
-    fontSize: 20,
+    fontSize: 28,
     textAlign: "center",
   },
 });
