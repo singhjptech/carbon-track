@@ -1,45 +1,75 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
-import { addGroup, addUserToGroup } from '../dbfunctions/dynamo'
-const UserDetails: React.FC<Props> = (
-  {
-    // navigation
-  }
-) => {
-  const [createGroup, setCreateGroup] = useState();
-  //we need groupcode, groupname 
-  const [joinGroup, setJoinGroup] = useState("");
-  //we need groupcode, groupname 
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
+import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
+
+
+const UserDetails: React.FC<Props> = ({ navigation }) => {
+  const [createGroupCode, setCreateGroupCode] = useState(null);
+  const [createGroupName, setCreateGroupName] = useState("");
+  const [createGroup, setCreateGroup] = useState({});
+  const [joinGroupCode, setJoinGroupCode] = useState(null);
+  const [joinGroupName, setJoinGroupName] = useState("");
+  const [joinGroup, setJoinGroup] = useState({});
+  const [hasErrored, setHasErrored] = useState(false);
 
   const navigation = useNavigation();
 
   const handleSubmit = () => {};
   return (
-    <View style={styles.container}>
-      <Text style={styles.make}>Create Group:</Text>
-      <TextInput
-        defaultValue={createGroup}
-        placeholder="Group Name"
-        style={styles.input}
-        onChangeText={(createGroup) => setCreateGroup(createGroup)}
-      />
-      <Button title="Create" color="black" onPress={handleSubmit} />
-      <Text style={styles.model}>Join Group:</Text>
-      <TextInput
-        defaultValue={joinGroup}
-        placeholder="Join Group"
-        style={styles.input}
-        onChangeText={(joinGroup) => setJoinGroup(joinGroup)}
-      />
-      <Button title="Join" color="black" onPress={handleSubmit} />
-      <Button
-        title="Next"
-        color="black"
-        onPress={() => navigation.navigate("UserDetails")}
-      />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <View style={styles.form}>
+          <Text style={styles.title}>Create Group:</Text>
+          <View style={styles.formContainer}>
+            <Text style={styles.formLabel}>code:</Text>
+            <TextInput
+              placeholder={"1234"}
+              style={styles.formInput}
+              onChangeText={(createGroupCode) =>
+                setCreateGroupCode(createGroupCode)
+              }
+            />
+            <Text style={styles.formLabel}>group name:</Text>
+            <TextInput
+              placeholder={"asynchrosaurus"}
+              style={styles.formInput}
+              onChangeText={(createGroupName) =>
+                setCreateGroupName(createGroupName)
+              }
+            />
+            <Pressable style={styles.buttonForm} onPress={handleCreateSubmit}>
+              <Text style={styles.buttonFormText}>Create</Text>
+            </Pressable>
+          </View>
+          <Text style={styles.title}>Join Group:</Text>
+          <View style={styles.formContainer}>
+            <Text style={styles.formLabel}>code:</Text>
+            <TextInput
+              placeholder="4321"
+              style={styles.formInput}
+              onChangeText={(joinGroupCode) => setJoinGroupCode(joinGroupCode)}
+            />
+            <Text style={styles.formLabel}>group name:</Text>
+            <TextInput
+              placeholder={"green team"}
+              style={styles.formInput}
+              onChangeText={(joinGroupName) => setJoinGroupName(joinGroupName)}
+            />
+            <Pressable style={styles.buttonForm} onPress={handleJoinSubmit}>
+              <Text style={styles.buttonFormText}>Join</Text>
+            </Pressable>
+          </View>
+          <Pressable
+            style={styles.buttonForm}
+            onPress={() => navigation.navigate("UserDetails")}
+          >
+            <Text style={styles.buttonFormText}>Ridin' Solo</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

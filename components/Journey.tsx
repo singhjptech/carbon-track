@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { getDistance } from "../dbfunctions/api-functions";
+import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
+import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
 
 
 const Journey: React.FC<Props> = ({ navigation }) => {
@@ -9,17 +10,25 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [toInput, setToInput] = useState('');
   const [distance, setDistance] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
+  const [coords, setCoords] = useState({})
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput).then((res) => {
-      console.log(res, "<- handle Submit response");
+      setDistance(res);
+    }).catch((err) => {
+      setHasErrored(true);
+    })
+
+    getCoordinates(fromInput, toInput).then((res) => {
+      setCoords(res)
 
       setDistance(res);
     }).catch((err) => {
       setHasErrored(true);
     });
   };
-  console.log(distance, "<- outside distance");
+   
+ 
 
   return (
     <View style={styles.container}>
@@ -41,6 +50,38 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       {distance && <Text>{distance}</Text>}
       <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
 
+
+      
+        <MapView style={styles.mapView}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: 53.481162,
+          longitude: -2.244259,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+           }} >
+          <Marker
+          coordinate={{ latitude: coords.startLat, longitude: coords.startLng }}
+          pinColor={'black'}
+          />
+          <Polyline
+          coordinates={[
+            { latitude: coords.startLat, longitude: coords.startLng },
+            { latitude: coords.endLat, longitude: coords.endLng },
+          ]}
+          strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
+          strokeColors={[
+            '#E5845C',
+          ]}
+          strokeWidth={6}
+          />
+          <Marker
+          coordinate={{ latitude: coords.endLat, longitude: coords.endLng }}
+          title={'End of Carbon Offset'}
+          />
+         </MapView>
+        
+        
 
     </View>
   );
@@ -67,6 +108,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 100,
   },
+  mapView: {
+    width: Dimensions.get('window').width,
+    height: 300,
+  }
 });
 
 export default Journey;
