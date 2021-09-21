@@ -14,7 +14,8 @@ const getData = async (regNum) => {
   };
   const { data } = await axios(config);
   let vehicleData = {};
-  vehicleData.emissions = data.co2Emissions;
+  let emissions = data.co2Emissions;
+  vehicleData.emissions = +emissions;
   vehicleData.make = data.make;
   vehicleData.colour = data.colour;
   vehicleData.year = data.yearOfManufacture;
@@ -24,8 +25,9 @@ const getData = async (regNum) => {
 
 const getDistance = async (origin, destination) => {
   const { data } = await axios.post(`https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${googleAPI}`);
-  const distance = data.routes[0].legs[0].distance.text;
-  return distance;
+  let distance = data.routes[0].legs[0].distance.text;
+  distance = distance.substr(0, distance.length - 3);
+  return +distance;
 };
 
 const getCoordinates = async (origin, destination) => {
@@ -47,8 +49,9 @@ const getSteps = async (origin, destination) => {
     endCoords.longitude = step.end_location.lng;
     return endCoords;
   })
-  console.log("STEEEEEEEEPPPPPPPPPSSSSSS -------->", directions, "<------------------STEEEEEEEEPPPPPPPPPSSSSSS");
   return directions;
 }
+
+
 
 module.exports = { getData, getDistance, getCoordinates, getSteps };

@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   SafeAreaView,
+  View,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import {
@@ -13,6 +14,7 @@ import {
   getCoordinates,
   getSteps,
 } from "../dbfunctions/api-functions";
+import { getCar } from "../dbfunctions/dynamo.js";
 import MapView, {
   Callout,
   Marker,
@@ -31,20 +33,11 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [hasErrored, setHasErrored] = useState(false);
   const [coords, setCoords] = useState({});
   const [steps, setSteps] = useState([]);
+  const [userVehicle, setUserVehicle] = useState(null);
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput)
       .then((res) => {
-        setDistance(res);
-      })
-      .catch((err) => {
-        setHasErrored(true);
-      });
-
-    getCoordinates(fromInput, toInput)
-      .then((res) => {
-        setCoords(res);
-
         setDistance(res);
       })
       .catch((err) => {
@@ -62,6 +55,14 @@ const Journey: React.FC<Props> = ({ navigation }) => {
     getSteps(fromInput, toInput)
       .then((res) => {
         setSteps(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
+
+    getCar()
+      .then((res) => {
+        setUserVehicle(res);
       })
       .catch((err) => {
         setHasErrored(true);
@@ -89,7 +90,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         onChangeText={(toInput) => setToInput(toInput)}
       />
       <Button title="Submit" color="black" onPress={handleSubmit} />
-      {distance && <Text>{distance}</Text>}
+
       <Button
         title="Back"
         color="black"
@@ -119,6 +120,15 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           title={"End of Carbon Offset"}
         />
       </MapView>
+
+      {userVehicle && (
+        <View style={styles.calcContainer}>
+          <Text style={styles.calcTitle}>Your disgraceful contribution:</Text>
+          <Text style={styles.calcText}>
+            {distance * userVehicle[0].emissions} g/KM
+          </Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -151,6 +161,31 @@ const styles = StyleSheet.create({
   mapView: {
     width: Dimensions.get("window").width,
     height: 300,
+  },
+  image: {
+    height: 125,
+    width: 175,
+  },
+  calcContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "40%",
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    margin: 20,
+    width: "80%",
+  },
+  calcText: {
+    color: "black",
+    fontSize: 20,
+  },
+  calcTitle: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 25,
+    marginBottom: 15,
+    textAlign: "center",
   },
 });
 
