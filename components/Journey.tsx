@@ -8,8 +8,17 @@ import {
   SafeAreaView,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
-import { getDistance, getCoordinates, getSteps } from "../dbfunctions/api-functions";
-import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
+import {
+  getDistance,
+  getCoordinates,
+  getSteps,
+} from "../dbfunctions/api-functions";
+import MapView, {
+  Callout,
+  Marker,
+  PROVIDER_GOOGLE,
+  Polyline,
+} from "react-native-maps";
 
 export type Props = {
   navigation?: string;
@@ -24,26 +33,40 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [steps, setSteps] = useState([]);
 
   const handleSubmit = () => {
-    getDistance(fromInput, toInput).then((res) => {
-      setDistance(res);
-    }).catch((err) => {
-      setHasErrored(true);
-    })
+    getDistance(fromInput, toInput)
+      .then((res) => {
+        setDistance(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
 
-    getCoordinates(fromInput, toInput).then((res) => {
-      setCoords(res)
+    getCoordinates(fromInput, toInput)
+      .then((res) => {
+        setCoords(res);
 
-    }).catch((err) => {
-      setHasErrored(true);
-    })
+        setDistance(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
 
-    getSteps(fromInput, toInput).then((res) => {
-      setSteps(res)
-    }).catch((err) => {
-      setHasErrored(true);
-    })
+    getCoordinates(fromInput, toInput)
+      .then((res) => {
+        setCoords(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
+
+    getSteps(fromInput, toInput)
+      .then((res) => {
+        setSteps(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -75,32 +98,27 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         }}
       />
 
-
-
-      <MapView style={styles.mapView}
+      <MapView
+        style={styles.mapView}
         provider={PROVIDER_GOOGLE}
         initialRegion={{
           latitude: 53.481162,
           longitude: -2.244259,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
-        }} >
-
+        }}
+      >
         <Polyline
           coordinates={steps}
           strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-          strokeColors={[
-            '#E5845C',
-          ]}
+          strokeColors={["#E5845C"]}
           strokeWidth={6}
         />
         <Marker
           coordinate={{ latitude: coords.endLat, longitude: coords.endLng }}
-          title={'End of Carbon Offset'}
+          title={"End of Carbon Offset"}
         />
       </MapView>
-
-
     </SafeAreaView>
   );
 };
@@ -131,13 +149,9 @@ const styles = StyleSheet.create({
     width: 160,
   },
   mapView: {
-    width: Dimensions.get('window').width,
+    width: Dimensions.get("window").width,
     height: 300,
   },
-  image: {
-    height: 125,
-    width: 175,
-  }
 });
 
 export default Journey;
