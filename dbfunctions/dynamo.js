@@ -89,7 +89,7 @@ const getUser = async () => {
     return userAndVehicles.Item;
 
 };
-const addGroup = async (groupData) => {
+const addGroup = async (groupData, currUser, setCurrUser) => {
     const group = await dynamodb
         .get({
             TableName: 'GroupData',
@@ -112,13 +112,32 @@ const addGroup = async (groupData) => {
                     },
                 })
                 .promise();
-            return true;
+            console.log(currUser, 'currUser');
+            await dynamodb.put({
+                TableName: 'UserData',
+                Item: {
+                    UserName: Auth.user.username,
+                    Vehicles: currUser.Vehicles,
+                    TotalEmissions: currUser.TotalEmissions,
+                    EmissionsSaved: 14,
+                    Journey: currUser.Journey,
+                    Groups: [...currUser.Groups, groupData.GroupName]
+                }
+            }).promise();
+            setCurrUser({
+                UserName: Auth.user.username,
+                Vehicles: currUser.Vehicles,
+                TotalEmissions: currUser.TotalEmissions,
+                EmissionsSaved: 14,
+                Journey: currUser.Journey,
+                Groups: [...currUser.Groups, groupData.GroupName]
+            })
         } catch (err) {
-            return false;
+            console.log(err);
         }
     }
 };
-const addUserToGroup = async (groupData) => {
+const addUserToGroup = async (groupData, currUser, setCurrUser) => {
     const group = await dynamodb
         .get({
             TableName: "GroupData",
@@ -147,6 +166,25 @@ const addUserToGroup = async (groupData) => {
                         },
                     })
                     .promise();
+                await dynamodb.put({
+                    TableName: 'UserData',
+                    Item: {
+                        UserName: Auth.user.username,
+                        Vehicles: currUser.Vehicles,
+                        TotalEmissions: currUser.TotalEmissions,
+                        EmissionsSaved: 14,
+                        Journey: currUser.Journey,
+                        Groups: [...currUser.Groups, groupData.GroupName]
+                    }
+                }).promise();
+                setCurrUser({
+                    UserName: Auth.user.username,
+                    Vehicles: currUser.Vehicles,
+                    TotalEmissions: currUser.TotalEmissions,
+                    EmissionsSaved: 14,
+                    Journey: currUser.Journey,
+                    Groups: [...currUser.Groups, groupData.GroupName]
+                })
                 return true;
             } catch (err) {
                 return false;
