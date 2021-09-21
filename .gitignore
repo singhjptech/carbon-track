@@ -13,6 +13,9 @@ web-build/
 # macOS
 .DS_Store
 
+
+apikeys.js
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -32,6 +35,5 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
+**.sample
 #amplify-do-not-edit-end
-
-apikeys.js

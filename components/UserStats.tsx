@@ -7,10 +7,16 @@ export type Props = {
 };
 
 const UserStats: React.FC<Props> = ({ navigation }) => {
+  // const [];
+
   return (
     <View style={styles.container}>
       <View style={styles.userStats}>
-        <Text style={styles.userStatsText}>Your Stats</Text>
+        <Text style={styles.userStatsTitle}>Your Stats</Text>
+        <Text>Total Emissions</Text>
+        <Text>Saved Emissions</Text>
+        <Text>Saved Emissions</Text>
+        <Text>Total Journeys</Text>
       </View>
     </View>
   );
@@ -18,13 +24,12 @@ const UserStats: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 4,
-    flexDirection: "column",
-    backgroundColor: "skyblue",
+    flex: 1,
   },
-  userStatsText: {
-    fontSize: 20,
+  userStatsTitle: {
+    fontSize: 28,
     textAlign: "center",
+    marginBottom: 5,
   },
 });
 

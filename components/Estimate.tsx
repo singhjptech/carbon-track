@@ -1,34 +1,45 @@
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Button, Pressable, StyleSheet, Text, View } from "react-native";
 
 const Estimate: React.FC<Props> = ({ navigation }) => {
-
   const handleSubmit = () => {};
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.estimate}>Estimate</Text>
-      <Button
-        title="Next"
-        color="black"
+    <>
+      <Text style={styles.title}>Track</Text>
+      <Pressable
+        style={styles.buttonEstimate}
         onPress={() => navigation.navigate("Journey")}
-      />
-    </View>
+      >
+        <Text style={styles.buttonEstimateText}>Journey</Text>
+      </Pressable>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "flex-start"
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    margin: 16,
   },
-  estimate: {
+  buttonEstimate: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    height: "15%",
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  buttonEstimateText: {
+    color: "white",
     fontSize: 20,
-    fontWeight: 'bold',
-    margin: 16
-  }
+  },
 });
 
 export default Estimate;

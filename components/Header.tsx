@@ -1,19 +1,18 @@
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const Header: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.userProfile}>
-        <Button
-          title="User"
-          color="black"
+        <Pressable
+          style={styles.buttonUser}
           onPress={() => navigation.navigate("User")}
-        />
+        >
+          <Text style={styles.buttonUserText}>User</Text>
+        </Pressable>
       </View>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Carbon OffSet</Text>
-      </View>
+      <Text style={styles.headerText}>Carbon OffSet</Text>
     </View>
   );
 };
@@ -21,22 +20,30 @@ const Header: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    backgroundColor: "skyblue",
     width: "90%",
   },
-  header: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "teal",
-  },
   headerText: {
+    textAlign: "center",
     fontSize: 32,
+    fontWeight: "bold",
   },
   userProfile: {
     alignItems: "flex-end",
     justifyContent: "flex-start",
-    backgroundColor: "steelblue",
+  },
+  buttonUser: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 80,
+  },
+  buttonUserText: {
+    color: "white",
+    fontSize: 20,
   },
 });
 

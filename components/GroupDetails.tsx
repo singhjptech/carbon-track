@@ -1,8 +1,17 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
+
+
 const UserDetails: React.FC<Props> = ({ navigation }) => {
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
@@ -41,6 +50,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Carbon-Offset</Text>
       <View style={styles.form}>
         <Text style={styles.title}>Create Group:</Text>
         <View style={styles.formContainer}>
@@ -64,6 +74,10 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.buttonFormText}>Create</Text>
           </Pressable>
         </View>
+        <Image
+          style={styles.image}
+          source={require("../src/icons/2F4847/shared-goals.png")}
+        />
         <Text style={styles.title}>Join Group:</Text>
         <View style={styles.formContainer}>
           <Text style={styles.formLabel}>code:</Text>
@@ -82,9 +96,13 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.buttonFormText}>Join</Text>
           </Pressable>
         </View>
+        <Image
+          style={styles.image}
+          source={require("../src/icons/2F4847/solo.png")}
+        />
         <Pressable
-          style={styles.buttonForm}
-          onPress={() => navigation.navigate("UserDetails")}
+          style={styles.buttonSolo}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonFormText}>Ridin' Solo</Text>
         </Pressable>
@@ -97,50 +115,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    // borderWidth: 4,
-    // borderColor: "red",
     backgroundColor: "white",
+  },
+  header: {
+    textAlign: "center",
+    fontSize: 32,
+    fontWeight: "bold",
   },
   form: {
     flex: 5,
     justifyContent: "center",
     alignItems: "center",
-    // borderWidth: 2,
-    // borderColor: "green",
     width: "80%",
+    // borderColor: "red",
+    // borderWidth: 2,
   },
   title: {
     textAlign: "center",
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
+    marginTop: 4,
   },
   formContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: 250,
-    // borderWidth: 2,
-    // borderColor: "blue",
+    height: "25%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
-    margin: 20,
     width: "90%",
   },
   formLabel: {
     marginTop: 5,
     marginBottom: 5,
-    fontSize: 20,
+    fontSize: 18,
     textAlign: "center",
   },
 
   formInput: {
+    fontSize: 18,
     textAlign: "center",
     color: "black",
     borderColor: "black",
     borderWidth: 1,
     borderRadius: 8,
     backgroundColor: "white",
-    height: 40,
+    height: "15%",
     width: 160,
   },
   buttonForm: {
@@ -152,12 +171,29 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 5,
     width: 110,
+    height: "16%",
     marginTop: 15,
     marginBottom: 15,
   },
   buttonFormText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
+  },
+  buttonSolo: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  image: {
+    height: 125,
+    width: 150,
   },
 });
 
