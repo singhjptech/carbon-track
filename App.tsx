@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import React, {useState} from "react";
-import React, { useState, useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { withAuthenticator } from "aws-amplify-react-native";
 import Amplify, { Auth } from "aws-amplify";
@@ -21,8 +20,8 @@ const App = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   // const [currUser, setCurrUser] = useState({});
-  const [currUser, setCurrUser] = useState({});
-  const [hasErrored, setHasErrored] = useState(false);
+  // const [currUser, setCurrUser] = useState({});
+  // const [hasErrored, setHasErrored] = useState(false);
 
   if (!isLoadingComplete) {
     return null;

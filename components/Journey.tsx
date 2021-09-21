@@ -109,10 +109,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           />
          </MapView>
         
-        
-
-    </View>
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
 
