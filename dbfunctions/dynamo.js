@@ -82,7 +82,6 @@ const getCar = async () => {
   return vehicles.Item.Vehicles;
 };
 const getUser = async () => {
-  console.log(dynamodb, "<--- in here");
   try {
     const userAndVehicles = await dynamodb
       .get({
@@ -92,6 +91,7 @@ const getUser = async () => {
         },
       })
       .promise();
+    console.log(userAndVehicles.Item, "<--- in dynamo file");
     return userAndVehicles.Item;
   } catch (err) {
     console.log(err);

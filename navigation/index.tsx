@@ -26,7 +26,7 @@ export default function Navigation({
     >
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="Journey"
+        initialRouteName="User"
       >
         <Stack.Screen name="UserDetails" component={UserDetails} />
 

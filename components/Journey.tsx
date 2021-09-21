@@ -31,26 +31,25 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       setDistance(res);
     }).catch((err) => {
       setHasErrored(true);
-    })
+    });
 
     getCoordinates(fromInput, toInput).then((res) => {
       setCoords(res)
-
     }).catch((err) => {
       setHasErrored(true);
-    })
+    });
 
     getSteps(fromInput, toInput).then((res) => {
       setSteps(res)
     }).catch((err) => {
       setHasErrored(true);
-    })
+    });
 
     getCar().then((res) => {
       setUserVehicle(res)
     }).catch((err) => {
       setHasErrored(true);
-    })
+    });
   };
 
   return (
