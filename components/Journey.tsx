@@ -32,11 +32,21 @@ const Journey: React.FC<Props> = ({ navigation }) => {
     getCoordinates(fromInput, toInput).then((res) => {
       setCoords(res)
 
+
+      setDistance(res);
+    }).catch((err) => {
+      setHasErrored(true);
+    })
+
+    getCoordinates(fromInput, toInput).then((res) => {
+      setCoords(res)
+
     }).catch((err) => {
       setHasErrored(true);
     })
   };
    
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -99,8 +109,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           />
          </MapView>
         
-        
-    </SafeAreaView>
+      </SafeAreaView>
   );
 };
 
@@ -137,6 +146,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: 300,
   },
+  mapView: {
+    width: Dimensions.get('window').width,
+    height: 300,
+  }
 });
 
 export default Journey;
