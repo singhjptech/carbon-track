@@ -16,35 +16,25 @@ import WelcomeBack from "../components/WelcomeBack";
 
 const Stack = createNativeStackNavigator();
 export type Props = {
-  setCurrUser?: any;
-  currUser?: any;
+  setCurrUser?: any,
+  currUser?: any
 };
 
 export default function Navigation({
   // props,
   colorScheme,
 }: // currUser,
-// setCurrUser
-{
-  colorScheme: ColorSchemeName;
-}) {
-  const [currUser, setCurrUser] = useState({});
-
-  // const [userVehicle, setUserVehicle] = useState({});
-
+  // setCurrUser
+  {
+    colorScheme: ColorSchemeName;
+  }) {
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="WelcomeBack"
-      >
-        <Stack.Screen
-          name="WelcomeBack"
-          component={WelcomeBack}
-          initialParams={{ setCurrUser, currUser }}
-        />
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="WelcomeBack">
+
+        <Stack.Screen name="WelcomeBack" component={WelcomeBack} />
 
         <Stack.Screen name="GroupDetails" component={GroupDetails} />
 

@@ -9,8 +9,15 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
+export type Props = {
+  navigation?: any,
+  currUser?: any,
+  setCurrUser?: any,
+  route?: any
+};
 
-const GroupDetails: React.FC<Props> = ({ navigation }) => {
+const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
+  const { currUser, setCurrUser } = params.params;
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
@@ -24,7 +31,7 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
     newGroup.GroupCode = createGroupCode;
     newGroup.GroupName = createGroupName;
     console.log(newGroup, "new group");
-    addGroup(newGroup)
+    addGroup(newGroup, currUser, setCurrUser)
       .then(() => {
         setCreateGroup(newGroup);
         console.log(createGroup, "state");
@@ -39,7 +46,7 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
     const newGroup = { ...joinGroup };
     newGroup.GroupCode = joinGroupCode;
     newGroup.GroupName = joinGroupName;
-    addUserToGroup(newGroup).catch((err) => setHasErrored(true));
+    addUserToGroup(newGroup, currUser, setCurrUser).catch((err) => setHasErrored(true));
     console.log(newGroup, "join group");
     setJoinGroup(newGroup);
   };
