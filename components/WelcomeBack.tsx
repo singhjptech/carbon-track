@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, SafeAreaView, Text, View } from "react-native";
 import { addUser, getUser } from "../dbfunctions/dynamo";
 import { useNavigation } from "@react-navigation/core";
@@ -10,15 +10,16 @@ export type Props = {
 };
 
 const WelcomeBack: React.FC<Props> = ({ navigation, route }) => {
-    const [currUser, setCurrUser] = useState({})
-
+    const [currUser, setCurrUser] = useState({});
+    const [hasLoaded, setHasLoaded] = useState(false)
+    useEffect(() => {
+        if (hasLoaded) navigation.navigate('GroupDetails', { screen: 'GroupDetails', params: { currUser, setCurrUser } });
+    }, [currUser, hasLoaded])
     const handlePress = () => {
         console.log(setCurrUser);
         getUser().then((userData) => {
             if (!userData) {
-                console.log(currUser, '<----if')
                 addUser().then(() => {
-
                     setCurrUser(() => {
                         return {
                             UserName: Auth.user.username,
@@ -29,16 +30,13 @@ const WelcomeBack: React.FC<Props> = ({ navigation, route }) => {
                             Groups: []
                         }
                     })
-                    console.log(currUser, '<---handlePress')
                 })
             } else {
                 setCurrUser(userData);
-                console.log(currUser, '<---else');
             }
+            setHasLoaded(true);
         })
-        navigation.navigate('GroupDetails', { currUser, setCurrUser });
     };
-
     return (
         <SafeAreaView>
             <View>

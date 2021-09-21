@@ -6,10 +6,12 @@ import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
 export type Props = {
   navigation?: any,
   currUser?: any,
-  setCurrUser?: any
+  setCurrUser?: any,
+  route?: any
 };
 
-const GroupDetails: React.FC<Props> = ({ navigation, currUser, setCurrUser }) => {
+const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
+  const { currUser, setCurrUser } = params.params;
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
@@ -19,7 +21,6 @@ const GroupDetails: React.FC<Props> = ({ navigation, currUser, setCurrUser }) =>
   const [hasErrored, setHasErrored] = useState(false);
 
   // const navigation = useNavigation();
-
   const handleCreateSubmit = () => {
     const newGroup = { ...createGroup };
     newGroup.GroupCode = createGroupCode;

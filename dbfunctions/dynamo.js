@@ -90,6 +90,7 @@ const getUser = async () => {
 
 };
 const addGroup = async (groupData, currUser, setCurrUser) => {
+    console.log(currUser, '<-----dynamo');
     const group = await dynamodb
         .get({
             TableName: 'GroupData',
@@ -113,13 +114,14 @@ const addGroup = async (groupData, currUser, setCurrUser) => {
                 })
                 .promise();
             console.log(currUser, 'currUser');
+            console.log(setCurrUser, 'currUser');
             await dynamodb.put({
                 TableName: 'UserData',
                 Item: {
                     UserName: Auth.user.username,
                     Vehicles: currUser.Vehicles,
                     TotalEmissions: currUser.TotalEmissions,
-                    EmissionsSaved: 14,
+                    EmissionsSaved: currUser.EmissionsSaved,
                     Journey: currUser.Journey,
                     Groups: [...currUser.Groups, groupData.GroupName]
                 }
@@ -138,6 +140,7 @@ const addGroup = async (groupData, currUser, setCurrUser) => {
     }
 };
 const addUserToGroup = async (groupData, currUser, setCurrUser) => {
+    console.log(groupData, 123456);
     const group = await dynamodb
         .get({
             TableName: "GroupData",
@@ -146,9 +149,11 @@ const addUserToGroup = async (groupData, currUser, setCurrUser) => {
             },
         })
         .promise();
+    console.log(group, '<<<<<<')
     if (Object.keys(group).length === 0) {
         return false;
     } else {
+        console.log(group, '<<<<<<')
         if (
             group.Item.GroupCode === groupData.GroupCode &&
             !group.Item.GroupMembers.includes(Auth.user.username)
@@ -172,7 +177,7 @@ const addUserToGroup = async (groupData, currUser, setCurrUser) => {
                         UserName: Auth.user.username,
                         Vehicles: currUser.Vehicles,
                         TotalEmissions: currUser.TotalEmissions,
-                        EmissionsSaved: 14,
+                        EmissionsSaved: currUser.EmissionsSaved,
                         Journey: currUser.Journey,
                         Groups: [...currUser.Groups, groupData.GroupName]
                     }
@@ -181,7 +186,7 @@ const addUserToGroup = async (groupData, currUser, setCurrUser) => {
                     UserName: Auth.user.username,
                     Vehicles: currUser.Vehicles,
                     TotalEmissions: currUser.TotalEmissions,
-                    EmissionsSaved: 14,
+                    EmissionsSaved: currUser.EmissionsSaved,
                     Journey: currUser.Journey,
                     Groups: [...currUser.Groups, groupData.GroupName]
                 })
