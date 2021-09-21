@@ -1,7 +1,13 @@
-import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
-import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { ScrollView, TextInput } from "react-native-gesture-handler";
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
 export type Props = {
   navigation?: any,
@@ -20,7 +26,6 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
   const [joinGroup, setJoinGroup] = useState({});
   const [hasErrored, setHasErrored] = useState(false);
 
-  // const navigation = useNavigation();
   const handleCreateSubmit = () => {
     const newGroup = { ...createGroup };
     newGroup.GroupCode = createGroupCode;
@@ -48,6 +53,7 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Carbon-Offset</Text>
       <View style={styles.form}>
         <Text style={styles.title}>Create Group:</Text>
         <View style={styles.formContainer}>
@@ -71,6 +77,10 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
             <Text style={styles.buttonFormText}>Create</Text>
           </Pressable>
         </View>
+        <Image
+          style={styles.image}
+          source={require("../src/icons/2F4847/shared-goals.png")}
+        />
         <Text style={styles.title}>Join Group:</Text>
         <View style={styles.formContainer}>
           <Text style={styles.formLabel}>code:</Text>
@@ -89,14 +99,18 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
             <Text style={styles.buttonFormText}>Join</Text>
           </Pressable>
         </View>
+        <Image
+          style={styles.image}
+          source={require("../src/icons/2F4847/solo.png")}
+        />
         <Pressable
-          style={styles.buttonForm}
-          onPress={() => navigation.navigate("UserDetails")}
+          style={styles.buttonSolo}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonFormText}>Ridin' Solo</Text>
         </Pressable>
       </View>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 };
 

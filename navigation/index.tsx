@@ -14,21 +14,20 @@ import User from "../components/User";
 import Journey from "../components/Journey";
 import WelcomeBack from "../components/WelcomeBack";
 
-
 const Stack = createNativeStackNavigator();
 export type Props = {
   setCurrUser?: any,
   currUser?: any
-}
+};
 
 export default function Navigation({
   // props,
-  colorScheme
-  // currUser, 
+  colorScheme,
+}: // currUser,
   // setCurrUser
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+  {
+    colorScheme: ColorSchemeName;
+  }) {
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
