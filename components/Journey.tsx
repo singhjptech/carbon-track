@@ -1,18 +1,23 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, View, Dimensions, SafeAreaView } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  Image,
+  Dimensions,
+  SafeAreaView,
+} from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { getDistance, getCoordinates } from "../dbfunctions/api-functions";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE, Polyline } from 'react-native-maps';
-
-
 
 export type Props = {
   navigation?: string;
 };
 
 const Journey: React.FC<Props> = ({ navigation }) => {
-  const [fromInput, setFromInput] = useState('');
-  const [toInput, setToInput] = useState('');
+  const [fromInput, setFromInput] = useState("");
+  const [toInput, setToInput] = useState("");
   const [distance, setDistance] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
   const [coords, setCoords] = useState({})
@@ -32,18 +37,21 @@ const Journey: React.FC<Props> = ({ navigation }) => {
     })
   };
    
- 
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.from}>From:</Text>
+      <Text style={styles.label}>From:</Text>
       <TextInput
         defaultValue={fromInput}
         placeholder="PostCode/Location"
         style={styles.input}
         onChangeText={(fromInput) => setFromInput(fromInput)}
       />
-      <Text style={styles.to}>To:</Text>
+      <Image
+        style={styles.image}
+        source={require("../src/icons/2F4847/journey.png")}
+      />
+      <Text style={styles.label}>To:</Text>
       <TextInput
         defaultValue={toInput}
         placeholder="PostCode/Location"
@@ -52,7 +60,13 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       />
       <Button title="Submit" color="black" onPress={handleSubmit} />
       {distance && <Text>{distance}</Text>}
-      <Button title="Back" color="black" onPress={() => { navigation.navigate("Home") }} />
+      <Button
+        title="Back"
+        color="black"
+        onPress={() => {
+          navigation.navigate("Home");
+        }}
+      />
 
 
       
@@ -86,7 +100,6 @@ const Journey: React.FC<Props> = ({ navigation }) => {
          </MapView>
         
         
-
     </SafeAreaView>
   );
 };
@@ -96,26 +109,34 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
+    backgroundColor: "white",
   },
-  from: {
+  label: {
     fontSize: 20,
     fontWeight: "bold",
-    margin: 16,
-  },
-  to: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 16,
+    marginTop: 5,
+    marginBottom: 5,
+    // textAlign: "center",
   },
   input: {
+    fontSize: 18,
+    textAlign: "center",
+    color: "black",
     borderColor: "black",
     borderWidth: 1,
-    width: 100,
+    borderRadius: 8,
+    backgroundColor: "white",
+    height: "3%",
+    width: 160,
   },
   mapView: {
+  image: {
+    height: 125,
+    width: 175,
+  },
     width: Dimensions.get('window').width,
     height: 300,
-  }
+  },
 });
 
 export default Journey;
