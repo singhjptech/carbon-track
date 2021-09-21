@@ -4,7 +4,7 @@ import {
   DarkTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import React, {useState} from "react";
 import { ColorSchemeName } from "react-native";
 
 import UserDetails from "../components/UserDetails";
@@ -45,8 +45,6 @@ export default function Navigation({
 
 
         <Stack.Screen name="UserDetails" component={UserDetails} />
-
-        <Stack.Screen name="GroupDetails" component={GroupDetails} />
 
         <Stack.Screen name="Home" component={HomeScreen} />
 

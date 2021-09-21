@@ -5,18 +5,7 @@ import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
 
 
-const UserDetails: React.FC<Props> = ({ navigation }) => {
-  const [createGroupCode, setCreateGroupCode] = useState(null);
-  const [createGroupName, setCreateGroupName] = useState("");
-  const [createGroup, setCreateGroup] = useState({});
-  const [joinGroupCode, setJoinGroupCode] = useState(null);
-  const [joinGroupName, setJoinGroupName] = useState("");
-  const [joinGroup, setJoinGroup] = useState({});
-  const [hasErrored, setHasErrored] = useState(false);
-
-
-
-const UserDetails: React.FC<Props> = ({ navigation }) => {
+const GroupDetails: React.FC<Props> = ({ navigation }) => {
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
@@ -195,4 +184,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserDetails;
+export default GroupDetails;
