@@ -7,6 +7,7 @@ import {
   Dimensions,
   SafeAreaView,
   View,
+  Pressable,
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import {
@@ -14,7 +15,7 @@ import {
   getCoordinates,
   getSteps,
 } from "../dbfunctions/api-functions";
-import { getCar } from "../dbfunctions/dynamo.js";
+import { addJourney, getCar } from "../dbfunctions/dynamo.js";
 import MapView, {
   Callout,
   Marker,
@@ -34,6 +35,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [coords, setCoords] = useState({});
   const [steps, setSteps] = useState([]);
   const [userVehicle, setUserVehicle] = useState(null);
+  const [track, setTrack] = useState(false);
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput)
@@ -67,6 +69,14 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       .catch((err) => {
         setHasErrored(true);
       });
+  };
+
+  const handleTrack = () => {
+    addJourney({
+      from: fromInput,
+      to: toInput,
+      emissions: distance * userVehicle[0].emissions,
+    });
   };
 
   return (
@@ -123,10 +133,13 @@ const Journey: React.FC<Props> = ({ navigation }) => {
 
       {userVehicle && (
         <View style={styles.calcContainer}>
-          <Text style={styles.calcTitle}>Your disgraceful contribution:</Text>
+          <Text style={styles.calcTitle}>Your Journey Emits...</Text>
           <Text style={styles.calcText}>
             {distance * userVehicle[0].emissions} g/KM
           </Text>
+          <Pressable style={styles.buttonTrack} onPress={handleTrack}>
+            <Text style={styles.buttonTrackText}>Track</Text>
+          </Pressable>
         </View>
       )}
     </SafeAreaView>
@@ -186,6 +199,23 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginBottom: 15,
     textAlign: "center",
+  },
+  buttonTrack: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    height: "16%",
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  buttonTrackText: {
+    color: "white",
+    fontSize: 18,
   },
 });
 
