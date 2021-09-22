@@ -1,22 +1,14 @@
 import React from "react";
 import { Pressable, Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Header from "./Header";
-import Goals from "./Goals";
 import Estimate from "./Estimate";
 import UserActivity from "./UserActivity";
-import Offset from "./Offset";
 
 export type Props = {
   navigation?: string;
 };
 
-const HomeScreen: React.FC<Props> = ({
-  // route,
-  navigation,
-}) => {
-  // const { userVehicle } = route.params;
-  // console.log(userVehicle, "VEHICLE");
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -41,7 +33,13 @@ const HomeScreen: React.FC<Props> = ({
         <UserActivity />
       </View>
       <View style={styles.smallCard}>
-        <Offset />
+        <Text style={styles.title}>Help Offset Carbon</Text>
+        <Pressable onPress={() => navigation.navigate("Offset")}>
+          <Image
+            style={styles.image}
+            source={require("../src/icons/2F4847/eco.png")}
+          />
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -102,6 +100,15 @@ const styles = StyleSheet.create({
   userImage: {
     height: 35,
     width: 35,
+  },
+  title: {
+    color: "#2F4847",
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  image: {
+    height: 75,
+    width: 100,
   },
 });
 
