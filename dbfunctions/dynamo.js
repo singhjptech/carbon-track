@@ -244,6 +244,7 @@ const updateEmissions = async (newEmissions) => {
     })
     .promise();
 };
+
 const addJourney = async (newJourney) => {
   try {
     console.log(newJourney, "<--- JOURNEY");

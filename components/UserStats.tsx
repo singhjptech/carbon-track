@@ -18,8 +18,8 @@ const UserStats: React.FC<Props> = ({ navigation, currUser }) => {
         <Text>Total Journeys: {currUser.Journey.length}</Text>
       </View>
       <View style={styles.vehicleContainer}>
-        <Text>Your Vehicles</Text>
-        <Text>{currUser.Vehicles[0].make}</Text>
+        <Text>Your Vehicles: {currUser.Vehicles[0].make}</Text>
+        
       </View>
     </View>
   );
