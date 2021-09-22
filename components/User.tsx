@@ -81,8 +81,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderWidth: 4,
-    borderColor: "red",
   },
   headerContainer: {
     flexDirection: "row-reverse",
@@ -110,8 +108,6 @@ const styles = StyleSheet.create({
     color: "black",
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 2,
-    // borderColor: "purple",
   },
   userWelcome: {
     fontSize: 28,
@@ -126,8 +122,6 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     margin: 20,
-    borderWidth: 2,
-    borderColor: "green",
   },
 
   logo: {

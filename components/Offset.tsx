@@ -8,7 +8,7 @@ const Offset = () => {
       <Pressable>
         <Image
           style={styles.image}
-          source={require("../src/icons/2F4847/plant.png")}
+          source={require("../src/icons/2F4847/eco.png")}
         />
       </Pressable>
     </>
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 75,
-    width: 75,
+    width: 100,
   },
 });
 

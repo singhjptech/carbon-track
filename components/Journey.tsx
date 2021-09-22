@@ -34,6 +34,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [coords, setCoords] = useState({});
   const [steps, setSteps] = useState([]);
   const [userVehicle, setUserVehicle] = useState(null);
+  const [travel, setTravel] = useState("driving");
 
   const [calc, setCalc] = useState(false);
   const [track, setTrack] = useState(false);
@@ -55,7 +56,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         setHasErrored(true);
       });
 
-    getSteps(fromInput, toInput)
+    getSteps(fromInput, toInput, travel)
       .then((res) => {
         setSteps(res);
       })
@@ -78,10 +79,75 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       from: fromInput,
       to: toInput,
       emissions: distance * userVehicle[0].emissions,
+      emissionsSaved: Math.round(
+        distance * options.driving - distance * options[travel]
+      ),
     });
     setCalc(false);
     setTrack(true);
   };
+
+  const handleTransit = () => {
+    setTravel("transit");
+    if (travel === "transit") {
+      getSteps(fromInput, toInput, travel)
+        .then((res) => {
+          setSteps(res);
+        })
+        .catch((err) => {
+          setHasErrored(true);
+        });
+    }
+  };
+
+  const handleBicycle = () => {
+    setTravel("bicycling");
+    if (travel === "bicycling") {
+      getSteps(fromInput, toInput, travel)
+        .then((res) => {
+          setSteps(res);
+        })
+        .catch((err) => {
+          setHasErrored(true);
+        });
+    }
+  };
+
+  const handleWalk = () => {
+    setTravel("walking");
+    if (travel === "walking") {
+      getSteps(fromInput, toInput, travel)
+        .then((res) => {
+          setSteps(res);
+        })
+        .catch((err) => {
+          setHasErrored(true);
+        });
+    }
+  };
+
+  const handleCar = () => {
+    setTravel("driving");
+    if (travel === "driving") {
+      getSteps(fromInput, toInput, travel)
+        .then((res) => {
+          setSteps(res);
+        })
+        .catch((err) => {
+          setHasErrored(true);
+        });
+    }
+  };
+
+  let options = {};
+
+  if (userVehicle) {
+    options.driving = userVehicle[0].emissions;
+    options.transit = 87;
+    options.bicycling = 0;
+    options.walking = 0;
+  }
+  console.log(travel, "<---- TRAVEL");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -97,7 +163,6 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           source={require("../src/icons/carbontrack.png")}
         />
       </View>
-      <Text style={styles.title}>Journey</Text>
       <View style={styles.formContainer}>
         <Text style={styles.formLabel}>From:</Text>
         <TextInput
@@ -142,11 +207,32 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         />
       </MapView>
 
-      {calc && (
+      <View style={styles.optionContainer}>
+        <Pressable style={styles.buttonOption} onPress={handleTransit}>
+          <Text style={styles.buttonOptionText}>Bus</Text>
+        </Pressable>
+        <Pressable style={styles.buttonOption} onPress={handleBicycle}>
+          <Text style={styles.buttonOptionText}>Bicycle</Text>
+        </Pressable>
+        <Pressable style={styles.buttonOption} onPress={handleWalk}>
+          <Text style={styles.buttonOptionText}>Walk</Text>
+        </Pressable>
+        <Pressable style={styles.buttonOption} onPress={handleCar}>
+          <Text style={styles.buttonOptionText}>Car</Text>
+        </Pressable>
+      </View>
+
+      {userVehicle && !track && (
         <View style={styles.calcContainer}>
           <Text style={styles.calcTitle}>Your Journey Emits...</Text>
           <Text style={styles.calcText}>
-            {distance * userVehicle[0].emissions} g/km
+            {Math.ceil(distance * options[travel])} grams of CO2
+          </Text>
+          <Text style={styles.calcText}>
+            {" "}
+            You have saved{" "}
+            {Math.ceil(distance * options.driving - distance * options[travel])}
+            grams of CO2
           </Text>
           <Pressable style={styles.buttonTrack} onPress={handleTrack}>
             <Text style={styles.buttonTrackText}>Track</Text>
@@ -197,20 +283,20 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 20,
   },
-  title: {
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
-    marginTop: 4,
-  },
+  // title: {
+  //   textAlign: "center",
+  //   fontSize: 24,
+  //   fontWeight: "bold",
+  //   marginTop: 4,
+  // },
   formContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: "25%",
+    height: "22%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     width: "90%",
-    marginBottom: 16,
+    marginBottom: 5,
   },
   formLabel: {
     marginTop: 5,
@@ -238,9 +324,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 5,
     width: 110,
-    height: "16%",
-    marginTop: 15,
-    marginBottom: 15,
+    height: "18%",
+    marginTop: 10,
+    marginBottom: 10,
   },
   buttonFormText: {
     color: "white",
@@ -250,6 +336,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 300,
     borderRadius: 28,
+    marginBottom: 5,
   },
   calcContainer: {
     flex: 1,
@@ -258,7 +345,7 @@ const styles = StyleSheet.create({
     height: "40%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
-    margin: 20,
+    // margin: 20,
     width: "90%",
   },
   calcText: {
@@ -272,6 +359,33 @@ const styles = StyleSheet.create({
     fontSize: 25,
     marginBottom: 5,
     textAlign: "center",
+  },
+  optionContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+    borderWidth: 1,
+    height: 35,
+    borderColor: "red",
+    marginBottom: 5,
+  },
+  buttonOption: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 80,
+    height: "100%",
+    // marginTop: 15,
+    // marginBottom: 15,
+  },
+
+  buttonOptionText: {
+    color: "white",
+    fontSize: 18,
   },
   buttonTrack: {
     alignItems: "center",
