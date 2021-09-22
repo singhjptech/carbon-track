@@ -6,10 +6,12 @@ import UserStats from "./UserStats";
 import { getUser } from "../dbfunctions/dynamo.js";
 
 export type Props = {
-  currUser?: string;
+  currUser?: string,
+  navigation?: any,
 };
 
 const User: React.FC<Props> = ({ navigation }) => {
+  const [currUser, setCurrUser] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
 
   useEffect(() => {
@@ -19,8 +21,7 @@ const User: React.FC<Props> = ({ navigation }) => {
     }).catch((err) => {
       setHasErrored(true);
     });
-  }, [])
-
+  }, []);
 
 
   return (
@@ -34,7 +35,7 @@ const User: React.FC<Props> = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.userHeader}>
-        <Text style={styles.userWelcome}>Hey, user</Text>
+        <Text style={styles.userWelcome}>Hey, {currUser ? currUser.UserName : "friend!"}</Text>
       </View>
       <View style={styles.statsContainer}>
         <UserStats navigation={navigation} />
