@@ -9,15 +9,13 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { addGroup, addUserToGroup } from "../dbfunctions/dynamo";
+
 export type Props = {
   navigation?: any;
-  currUser?: any;
-  setCurrUser?: any;
-  route?: any;
 };
 
-const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
-  const { currUser, setCurrUser } = params.params;
+const GroupDetails: React.FC<Props> = ({ navigation }) => {
+ 
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
@@ -31,7 +29,7 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
     newGroup.GroupCode = createGroupCode;
     newGroup.GroupName = createGroupName;
     console.log(newGroup, "new group");
-    addGroup(newGroup, currUser, setCurrUser)
+    addGroup(newGroup)
       .then(() => {
         setCreateGroup(newGroup);
         console.log(createGroup, "state");
@@ -46,7 +44,7 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
     const newGroup = { ...joinGroup };
     newGroup.GroupCode = joinGroupCode;
     newGroup.GroupName = joinGroupName;
-    addUserToGroup(newGroup, currUser, setCurrUser).catch((err) =>
+    addUserToGroup(newGroup).catch((err) =>
       setHasErrored(true)
     );
     console.log(newGroup, "join group");
@@ -110,7 +108,7 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
         />
         <Pressable
           style={styles.buttonSolo}
-          onPress={() => navigation.navigate("Home", { screen: 'User', params: { currUser, setCurrUser } })}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonFormText}>Ridin' Solo</Text>
         </Pressable>

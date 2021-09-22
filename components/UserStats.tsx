@@ -13,7 +13,6 @@ const UserStats: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     getUser().then((res) => {
-      console.log(res, "<-- User Data");
       setCurrUser(res)
     }).catch((err) => {
       setHasErrored(true);

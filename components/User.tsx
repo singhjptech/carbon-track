@@ -1,29 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GroupStats from "./GroupStats";
 import UserStats from "./UserStats";
-import { getUser } from "../dbfunctions/dynamo.js";
+import { getUser, getGroup } from "../dbfunctions/dynamo.js";
+
 
 export type Props = {
-  currUser?: string;
+  currGroup?: any;
   navigation?: any;
 };
 
 const User: React.FC<Props> = ({ navigation }) => {
   const [currUser, setCurrUser] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
+  const [currGroup, setCurrGroup] = useState(null);
+  const [hasLoaded, setHasLoaded] = useState(false)
 
   useEffect(() => {
     getUser()
       .then((res) => {
-        console.log(res, "<-- User Data");
         setCurrUser(res);
+        setHasLoaded(true);
       })
       .catch((err) => {
         setHasErrored(true);
       });
   }, []);
+
+  useEffect(() => {
+    if (hasLoaded) {
+      console.log('hello');
+      console.log(currUser.Groups[0].length, '<--current group');
+      
+      getGroup(currUser.Groups[0]).then((res) => {
+        setCurrGroup(res)
+      }).catch((err) => {
+        setHasErrored(true);
+      });
+
+    }
+  }, [hasLoaded]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,14 +58,18 @@ const User: React.FC<Props> = ({ navigation }) => {
       </View>
       <View style={styles.userHeader}>
         <Text style={styles.userWelcome}>
-          Hey, {currUser ? currUser.UserName : "friend!"}
+          Hey,  {currUser ? currUser.UserName : "friend!"}
         </Text>
       </View>
+      {currUser&&(
       <View style={styles.statsContainer}>
-        <UserStats navigation={navigation} />
+        <UserStats navigation={navigation} currUser={currUser} />
       </View>
+      )}
       <View style={styles.statsContainer}>
-        <GroupStats navigation={navigation} />
+        {currGroup&&
+        (<GroupStats navigation={navigation} currUser={currUser} currGroup={currGroup}/>)
+        }
       </View>
     </SafeAreaView>
   );

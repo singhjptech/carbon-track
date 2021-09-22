@@ -12,37 +12,15 @@ import { Auth } from "aws-amplify";
 
 export type Props = {
     navigation?: any,
-    route?: any
 };
 
-const WelcomeBack: React.FC<Props> = ({ navigation, route }) => {
-    const [currUser, setCurrUser] = useState({});
-    const [hasLoaded, setHasLoaded] = useState(false)
-    useEffect(() => {
-        if (hasLoaded) navigation.navigate('UserDetails', { screen: 'UserDetails', params: { currUser, setCurrUser } });
-    }, [currUser, hasLoaded])
+const WelcomeBack: React.FC<Props> = ({ navigation }) => {
+    
+
     const handlePress = () => {
-        console.log(setCurrUser);
-        getUser().then((userData) => {
-            if (!userData) {
-                addUser().then(() => {
-                    setCurrUser(() => {
-                        return {
-                            UserName: Auth.user.username,
-                            Vehicles: [],
-                            TotalEmissions: 0,
-                            EmissionsSaved: 0,
-                            Journey: [],
-                            Groups: []
-                        }
-                    })
-                })
-            } else {
-                setCurrUser(userData);
-            }
-            setHasLoaded(true);
-        })
+        navigation.navigate('UserDetails');
     };
+
     return (
         <SafeAreaView style={styles.container}>
             <View>
