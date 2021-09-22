@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   StyleSheet,
   Text,
   Image,
@@ -35,6 +34,8 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [coords, setCoords] = useState({});
   const [steps, setSteps] = useState([]);
   const [userVehicle, setUserVehicle] = useState(null);
+
+  const [calc, setCalc] = useState(false);
   const [track, setTrack] = useState(false);
 
   const handleSubmit = () => {
@@ -61,7 +62,8 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       .catch((err) => {
         setHasErrored(true);
       });
-
+    setCalc(true);
+    setTrack(false);
     getCar()
       .then((res) => {
         setUserVehicle(res);
@@ -77,37 +79,46 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       to: toInput,
       emissions: distance * userVehicle[0].emissions,
     });
+    setCalc(false);
+    setTrack(true);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.label}>From:</Text>
-      <TextInput
-        defaultValue={fromInput}
-        placeholder="PostCode/Location"
-        style={styles.input}
-        onChangeText={(fromInput) => setFromInput(fromInput)}
-      />
-      <Image
-        style={styles.image}
-        source={require("../src/icons/2F4847/journey.png")}
-      />
-      <Text style={styles.label}>To:</Text>
-      <TextInput
-        defaultValue={toInput}
-        placeholder="PostCode/Location"
-        style={styles.input}
-        onChangeText={(toInput) => setToInput(toInput)}
-      />
-      <Button title="Submit" color="black" onPress={handleSubmit} />
-
-      <Button
-        title="Back"
-        color="black"
-        onPress={() => {
-          navigation.navigate("Home");
-        }}
-      />
+      <View style={styles.headerContainer}>
+        <Pressable
+          style={styles.buttonHome}
+          onPress={() => navigation.navigate("Home")}
+        >
+          <Text style={styles.buttonHomeText}>Home</Text>
+        </Pressable>
+        <Image
+          style={styles.logo}
+          source={require("../src/icons/carbontrack.png")}
+        />
+      </View>
+      <Text style={styles.title}>Journey</Text>
+      <View style={styles.formContainer}>
+        <Text style={styles.formLabel}>From:</Text>
+        <TextInput
+          autoCapitalize="characters"
+          defaultValue={fromInput}
+          placeholder="origin"
+          style={styles.formInput}
+          onChangeText={(fromInput) => setFromInput(fromInput)}
+        />
+        <Text style={styles.formLabel}>To:</Text>
+        <TextInput
+          autoCapitalize="characters"
+          defaultValue={toInput}
+          placeholder="destination"
+          style={styles.formInput}
+          onChangeText={(toInput) => setToInput(toInput)}
+        />
+        <Pressable style={styles.buttonForm} onPress={handleSubmit}>
+          <Text style={styles.buttonFormText}>Search</Text>
+        </Pressable>
+      </View>
 
       <MapView
         style={styles.mapView}
@@ -122,8 +133,8 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         <Polyline
           coordinates={steps}
           strokeColor="#000" // fallback for when `strokeColors` is not supported by the map-provider
-          strokeColors={["#E5845C"]}
-          strokeWidth={6}
+          strokeColors={["#FF6584"]}
+          strokeWidth={4}
         />
         <Marker
           coordinate={{ latitude: coords.endLat, longitude: coords.endLng }}
@@ -131,14 +142,27 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         />
       </MapView>
 
-      {userVehicle && (
+      {calc && (
         <View style={styles.calcContainer}>
           <Text style={styles.calcTitle}>Your Journey Emits...</Text>
           <Text style={styles.calcText}>
-            {distance * userVehicle[0].emissions} g/KM
+            {distance * userVehicle[0].emissions} g/km
           </Text>
           <Pressable style={styles.buttonTrack} onPress={handleTrack}>
             <Text style={styles.buttonTrackText}>Track</Text>
+          </Pressable>
+        </View>
+      )}
+      {track && (
+        <View style={styles.calcContainer}>
+          <Text style={styles.calcTitle}>
+            Journey has been added. See your profile
+          </Text>
+          <Pressable
+            style={styles.buttonTrack}
+            onPress={() => navigation.navigate("User")}
+          >
+            <Text style={styles.buttonTrackText}>Profile</Text>
           </Pressable>
         </View>
       )}
@@ -150,17 +174,51 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
     backgroundColor: "white",
   },
-  label: {
+  headerContainer: {
+    flexDirection: "row-reverse",
+    alignItems: "center",
+    justifyContent: "space-around",
+    textAlign: "center",
+    width: "90%",
+    height: 60,
+  },
+  buttonHome: {
+    alignItems: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 80,
+  },
+  buttonHomeText: {
+    color: "white",
     fontSize: 20,
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 24,
     fontWeight: "bold",
+    marginTop: 4,
+  },
+  formContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "25%",
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    width: "90%",
+    marginBottom: 16,
+  },
+  formLabel: {
     marginTop: 5,
     marginBottom: 5,
-    // textAlign: "center",
+    fontSize: 18,
+    textAlign: "center",
   },
-  input: {
+  formInput: {
     fontSize: 18,
     textAlign: "center",
     color: "black",
@@ -168,39 +226,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     backgroundColor: "white",
-    height: "3%",
+    height: "15%",
     width: 160,
   },
-  mapView: {
-    width: Dimensions.get("window").width,
-    height: 300,
-  },
-  image: {
-    height: 125,
-    width: 175,
-  },
-  calcContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "40%",
-    borderRadius: 28,
-    backgroundColor: "#D7E7E1",
-    margin: 20,
-    width: "80%",
-  },
-  calcText: {
-    color: "black",
-    fontSize: 20,
-  },
-  calcTitle: {
-    color: "black",
-    fontWeight: "bold",
-    fontSize: 25,
-    marginBottom: 15,
-    textAlign: "center",
-  },
-  buttonTrack: {
+  buttonForm: {
     alignItems: "center",
     justifyContent: "center",
     borderColor: "#2F4847",
@@ -213,9 +242,59 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
   },
+  buttonFormText: {
+    color: "white",
+    fontSize: 18,
+  },
+  mapView: {
+    width: "90%",
+    height: 300,
+    borderRadius: 28,
+  },
+  calcContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "40%",
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    margin: 20,
+    width: "90%",
+  },
+  calcText: {
+    color: "#FF6584",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  calcTitle: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 25,
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  buttonTrack: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "#2F4847",
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 5,
+    width: 110,
+    height: "25%",
+    marginTop: 15,
+    marginBottom: 15,
+  },
   buttonTrackText: {
     color: "white",
     fontSize: 18,
+  },
+  logo: {
+    height: 35,
+    width: 240,
+    padding: 0,
+    margin: 0,
   },
 });
 

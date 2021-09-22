@@ -1,11 +1,17 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, Image } from "react-native";
 
 const Offset = () => {
   return (
-    <Pressable>
+    <>
       <Text style={styles.title}>Help Offset Carbon</Text>
-    </Pressable>
+      <Pressable>
+        <Image
+          style={styles.image}
+          source={require("../src/icons/2F4847/plant.png")}
+        />
+      </Pressable>
+    </>
   );
 };
 
@@ -13,7 +19,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    margin: 16,
+    margin: 5,
+  },
+  image: {
+    height: 75,
+    width: 75,
   },
 });
 

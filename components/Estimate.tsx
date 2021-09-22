@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 const Estimate: React.FC<Props> = ({ navigation }) => {
   const handleSubmit = () => {};
@@ -7,6 +7,10 @@ const Estimate: React.FC<Props> = ({ navigation }) => {
   return (
     <>
       <Text style={styles.title}>Track</Text>
+      <Image
+        style={styles.image}
+        source={require("../src/icons/2F4847/track-journey.png")}
+      />
       <Pressable
         style={styles.buttonEstimate}
         onPress={() => navigation.navigate("Journey")}
@@ -39,6 +43,10 @@ const styles = StyleSheet.create({
   buttonEstimateText: {
     color: "white",
     fontSize: 20,
+  },
+  image: {
+    height: 125,
+    width: 175,
   },
 });
 

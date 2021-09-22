@@ -6,8 +6,8 @@ import UserStats from "./UserStats";
 import { getUser } from "../dbfunctions/dynamo.js";
 
 export type Props = {
-  currUser?: string,
-  navigation?: any,
+  currUser?: string;
+  navigation?: any;
 };
 
 const User: React.FC<Props> = ({ navigation }) => {
@@ -15,27 +15,34 @@ const User: React.FC<Props> = ({ navigation }) => {
   const [hasErrored, setHasErrored] = useState(false);
 
   useEffect(() => {
-    getUser().then((res) => {
-      console.log(res, "<-- User Data");
-      setCurrUser(res)
-    }).catch((err) => {
-      setHasErrored(true);
-    });
+    getUser()
+      .then((res) => {
+        console.log(res, "<-- User Data");
+        setCurrUser(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
   }, []);
-
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.buttonHomeContainer}>
+      <View style={styles.headerContainer}>
         <Pressable
           style={styles.buttonHome}
           onPress={() => navigation.navigate("Home")}
         >
           <Text style={styles.buttonHomeText}>Home</Text>
         </Pressable>
+        <Image
+          style={styles.logo}
+          source={require("../src/icons/carbontrack.png")}
+        />
       </View>
       <View style={styles.userHeader}>
-        <Text style={styles.userWelcome}>Hey, {currUser ? currUser.UserName : "friend!"}</Text>
+        <Text style={styles.userWelcome}>
+          Hey, {currUser ? currUser.UserName : "friend!"}
+        </Text>
       </View>
       <View style={styles.statsContainer}>
         <UserStats navigation={navigation} />
@@ -50,43 +57,19 @@ const User: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "white",
     borderWidth: 4,
     borderColor: "red",
   },
-  headerText: {
+  headerContainer: {
+    flexDirection: "row-reverse",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  userHeader: {
-    color: "black",
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: "purple",
-  },
-  userWelcome: {
-    fontSize: 28,
-    fontWeight: "bold",
-  },
-  buttonHomeContainer: {
-    alignItems: "flex-end",
-    justifyContent: "flex-start",
-    marginRight: 20,
-    borderWidth: 2,
-    borderColor: "blue",
-  },
-  statsContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-around",
+    textAlign: "center",
     width: "90%",
-    height: 250,
-    borderRadius: 28,
-    backgroundColor: "#D7E7E1",
-    margin: 20,
-    borderWidth: 2,
-    borderColor: "green",
+    height: 60,
   },
   buttonHome: {
     alignItems: "center",
@@ -101,6 +84,36 @@ const styles = StyleSheet.create({
   buttonHomeText: {
     color: "white",
     fontSize: 20,
+  },
+  userHeader: {
+    color: "black",
+    alignItems: "center",
+    justifyContent: "center",
+    // borderWidth: 2,
+    // borderColor: "purple",
+  },
+  userWelcome: {
+    fontSize: 28,
+    fontWeight: "bold",
+  },
+  statsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+    height: 250,
+    borderRadius: 28,
+    backgroundColor: "#D7E7E1",
+    margin: 20,
+    borderWidth: 2,
+    borderColor: "green",
+  },
+
+  logo: {
+    height: 35,
+    width: 240,
+    padding: 0,
+    margin: 0,
   },
 });
 
