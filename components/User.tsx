@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GroupStats from "./GroupStats";
 import UserStats from "./UserStats";
@@ -17,13 +17,14 @@ const User: React.FC<Props> = ({ navigation }) => {
   useEffect(() => {
     getUser()
       .then((res) => {
-        console.log(res, "<-- User Data");
         setCurrUser(res);
       })
       .catch((err) => {
         setHasErrored(true);
       });
   }, []);
+
+  console.log(currUser, "<--- USER MEEEEE");
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,12 +45,16 @@ const User: React.FC<Props> = ({ navigation }) => {
           Hey, {currUser ? currUser.UserName : "friend!"}
         </Text>
       </View>
-      <View style={styles.statsContainer}>
-        <UserStats navigation={navigation} />
-      </View>
-      <View style={styles.statsContainer}>
-        <GroupStats navigation={navigation} />
-      </View>
+      {currUser && (
+        <>
+          <View style={styles.statsContainer}>
+            <UserStats navigation={navigation} currUser={currUser} />
+          </View>
+          <View style={styles.statsContainer}>
+            <GroupStats navigation={navigation} />
+          </View>
+        </>
+      )}
     </SafeAreaView>
   );
 };
@@ -60,8 +65,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderWidth: 4,
-    borderColor: "red",
   },
   headerContainer: {
     flexDirection: "row-reverse",
@@ -89,8 +92,6 @@ const styles = StyleSheet.create({
     color: "black",
     alignItems: "center",
     justifyContent: "center",
-    // borderWidth: 2,
-    // borderColor: "purple",
   },
   userWelcome: {
     fontSize: 28,
@@ -105,8 +106,6 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     margin: 20,
-    borderWidth: 2,
-    borderColor: "green",
   },
 
   logo: {
