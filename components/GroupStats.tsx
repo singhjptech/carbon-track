@@ -4,9 +4,9 @@ import { getGroup, getUser, getGroupEmissions } from "../dbfunctions/dynamo.js";
 import Auth from "@aws-amplify/auth";
 
 export type Props = {
-  navigation?: any,
-  currGroup?: any,
-  currUser?: any,
+  navigation?: any;
+  currGroup?: any;
+  currUser?: any;
 };
 
 const GroupStats: React.FC<Props> = ({ navigation, currGroup, currUser }) => {
@@ -20,25 +20,27 @@ const GroupStats: React.FC<Props> = ({ navigation, currGroup, currUser }) => {
   //     setHasErrored(true);
   //   });
   // }, []);
-  console.log(currGroup, '<---group current');
-  
+  console.log(currGroup, "<---group current");
+
   return (
     <View style={styles.container}>
       <View style={styles.groupStats}>
-        <Text style={styles.groupStatsText}>{currGroup.Item.GroupName} - Group Stats:</Text>
+        <Text style={styles.groupStatsTitle}>
+          {currGroup.Item.GroupName} - Group Stats:
+        </Text>
         {currGroup.Item.GroupMembers.map((member) => {
-          console.log(member, '<---MEMBER')
+          console.log(member, "<---MEMBER");
           if (Auth.user.username !== member.UserName) {
-
             return (
-              <Text key={member.UserName}>
-                <Text>{member.UserName}    </Text>
-                <Text>Total Emissions: {member.TotalEmissions}</Text>
+              <Text style={styles.groupStatsText} key={member.UserName}>
+                <Text style={styles.groupStatsText}>{member.UserName} </Text>
+                <Text style={styles.groupStatsText}>
+                  Total Emissions: {member.TotalEmissions}
+                </Text>
                 {/* <Text>Emissions Saved: {member.EmissionsSaved}</Text> */}
               </Text>
-            )
+            );
           }
- 
         })}
       </View>
     </View>
@@ -47,12 +49,20 @@ const GroupStats: React.FC<Props> = ({ navigation, currGroup, currUser }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 4,
+    flex: 1,
+  },
+  groupStatsTitle: {
+    color: "#2F4847",
+    textAlign: "center",
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 15,
+    marginTop: 15,
   },
   groupStatsText: {
-    fontSize: 28,
-    textAlign: "center",
-    marginBottom: 5.
+    fontSize: 18,
+    textTransform: "capitalize",
+    marginBottom: 10,
   },
 });
 

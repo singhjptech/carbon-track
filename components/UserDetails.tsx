@@ -53,9 +53,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
         ) : (
           <Text style={styles.regInputTitle}>Your Vehicle Details:</Text>
         )}
-        {hasErrored && (
-          <Text style={styles.inputError}>Error, invalid input</Text>
-        )}
+
         {!userVehicle && (
           <>
             <TextInput
@@ -69,6 +67,9 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.buttonFormText}>Search</Text>
             </Pressable>
           </>
+        )}
+        {hasErrored && (
+          <Text style={styles.inputError}>Error, invalid input</Text>
         )}
 
         {userVehicle && (
@@ -88,12 +89,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
             </View>
             <Pressable
               style={styles.buttonForm}
-              onPress={() =>
-                navigation.navigate(
-                  "GroupDetails"
-                  // , { userVehicle }
-                )
-              }
+              onPress={() => navigation.navigate("GroupDetails")}
             >
               <Text style={styles.buttonFormText}>Add</Text>
             </Pressable>
@@ -106,7 +102,7 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
-          source={require("../src/icons/D7E7E1/car.png")}
+          source={require("../src/icons/2F4847/carcity.png")}
         />
       </View>
     </SafeAreaView>
@@ -129,16 +125,17 @@ const styles = StyleSheet.create({
     height: 60,
   },
   regInputTitle: {
+    color: "#2F4847",
     textAlign: "center",
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 16,
+    marginBottom: 20,
   },
   formContainer: {
-    flex: 2,
+    flex: 3,
     justifyContent: "center",
     alignItems: "center",
-    height: "40%",
+    height: "35%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     margin: 20,
@@ -151,6 +148,7 @@ const styles = StyleSheet.create({
   },
   input: {
     textAlign: "center",
+    fontSize: 18,
     color: "black",
     borderColor: "black",
     borderWidth: 1,
@@ -165,15 +163,15 @@ const styles = StyleSheet.create({
     borderColor: "#2F4847",
     backgroundColor: "#2F4847",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 28,
     padding: 5,
-    width: 110,
-    marginTop: 15,
+    width: 150,
+    marginTop: 25,
     marginBottom: 15,
   },
   buttonFormText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
   },
   confirmContainer: {
     alignItems: "center",
@@ -188,12 +186,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   confirmText: {
-    fontSize: 16,
+    fontSize: 18,
     textTransform: "capitalize",
     marginBottom: 5,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 5,
   },
   buttonReEnter: {
@@ -202,15 +200,13 @@ const styles = StyleSheet.create({
     borderColor: "#2F4847",
     backgroundColor: "white",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 28,
     padding: 5,
-    width: 110,
-    marginTop: 10,
-    marginBottom: 10,
+    width: 150,
   },
   buttonReEnterText: {
     color: "#2F4847",
-    fontSize: 20,
+    fontSize: 18,
   },
   logo: {
     height: 40,
@@ -222,10 +218,11 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
   },
   image: {
-    height: 200,
-    width: 350,
+    height: 270,
+    width: 370,
   },
 });
 

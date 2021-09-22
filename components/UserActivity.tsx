@@ -24,12 +24,11 @@ const UserActivity = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    // borderWidth: 2,
-    // borderColor: "red",
     height: "70%",
     width: "90%",
   },
   title: {
+    color: "#2F4847",
     fontSize: 28,
     fontWeight: "bold",
     margin: 16,
@@ -39,15 +38,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     width: "30%",
-    // borderWidth: 2,
-    // borderColor: "green",
   },
   textColumn: {
     flexDirection: "column",
     justifyContent: "space-around",
     width: "70%",
-    // borderWidth: 2,
-    // borderColor: "blue",
   },
   text: {
     fontSize: 16,

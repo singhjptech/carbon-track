@@ -17,9 +17,9 @@ const Offset = () => {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: 22,
+    color: "#2F4847",
+    fontSize: 28,
     fontWeight: "bold",
-    margin: 5,
   },
   image: {
     height: 75,
