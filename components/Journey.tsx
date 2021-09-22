@@ -38,30 +38,6 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [track, setTrack] = useState(false);
 
   const handleSubmit = () => {
-<<<<<<< HEAD
-    getDistance(fromInput, toInput).then((res) => {
-      setDistance(res);
-    }).catch((err) => {
-      setHasErrored(true);
-    });
-
-    getCoordinates(fromInput, toInput).then((res) => {
-      setCoords(res)
-    }).catch((err) => {
-      setHasErrored(true);
-    });
-
-    getSteps(fromInput, toInput).then((res) => {
-      setSteps(res)
-    }).catch((err) => {
-      setHasErrored(true);
-    });
-
-    getCar().then((res) => {
-      setUserVehicle(res)
-    }).catch((err) => {
-      setHasErrored(true);
-=======
     getDistance(fromInput, toInput)
       .then((res) => {
         setDistance(res);
@@ -100,7 +76,6 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       from: fromInput,
       to: toInput,
       emissions: distance * userVehicle[0].emissions,
->>>>>>> fc3bde6e6ed76f9e2a090818c008da63bea8a690
     });
   };
 
