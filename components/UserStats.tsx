@@ -1,33 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { getUser } from "../dbfunctions/dynamo.js";
 
 export type Props = {
-  currUser?: string;
-  currGroup?: string;
+  currUser?: any;
 };
 
-const UserStats: React.FC<Props> = ({ navigation }) => {
-  const [currUser, setCurrUser] = useState(null);
+const UserStats: React.FC<Props> = ({ navigation, currUser }) => {
   const [hasErrored, setHasErrored] = useState(false);
-
-  useEffect(() => {
-    getUser().then((res) => {
-      console.log(res, "<-- User Data");
-      setCurrUser(res)
-    }).catch((err) => {
-      setHasErrored(true);
-    });
-  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.userStats}>
         <Text style={styles.userStatsTitle}>Your Stats</Text>
-        <Text>Total Emissions</Text>
-        <Text>Saved Emissions</Text>
-        <Text>Saved Emissions</Text>
-        <Text>Total Journeys</Text>
+        <Text>Your Total Emissions: {currUser.TotalEmissions}</Text>
+        <Text>Saved Emissions: {currUser.EmissionsSaved}</Text>
+        <Text>Total Journeys: {currUser.Journey.length}</Text>
+      </View>
+      <View style={styles.vehicleContainer}>
+        <Text>Your Vehicles</Text>
+        <Text>{currUser.Vehicles[0].make}</Text>
       </View>
     </View>
   );
