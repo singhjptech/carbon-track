@@ -110,7 +110,7 @@ const GroupDetails: React.FC<Props> = ({ navigation, route: { params } }) => {
         />
         <Pressable
           style={styles.buttonSolo}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("Home", { screen: 'User', params: { currUser, setCurrUser } })}
         >
           <Text style={styles.buttonFormText}>Ridin' Solo</Text>
         </Pressable>

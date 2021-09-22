@@ -1,15 +1,29 @@
-import React from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import GroupStats from "./GroupStats";
 import UserStats from "./UserStats";
+import { getUser } from "../dbfunctions/dynamo.js";
 
 export type Props = {
   currUser?: string;
+  navigation?: any;
 };
 
 const User: React.FC<Props> = ({ navigation }) => {
-  //
+  const [currUser, setCurrUser] = useState(null);
+  const [hasErrored, setHasErrored] = useState(false);
+
+  useEffect(() => {
+    getUser()
+      .then((res) => {
+        console.log(res, "<-- User Data");
+        setCurrUser(res);
+      })
+      .catch((err) => {
+        setHasErrored(true);
+      });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -26,7 +40,9 @@ const User: React.FC<Props> = ({ navigation }) => {
         />
       </View>
       <View style={styles.userHeader}>
-        <Text style={styles.userWelcome}>Hey, User</Text>
+        <Text style={styles.userWelcome}>
+          Hey, {currUser ? currUser.UserName : "friend!"}
+        </Text>
       </View>
       <View style={styles.statsContainer}>
         <UserStats navigation={navigation} />
