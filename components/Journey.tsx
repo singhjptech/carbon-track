@@ -14,7 +14,7 @@ import {
   getCoordinates,
   getSteps,
 } from "../dbfunctions/api-functions";
-import { addJourney, getCar } from "../dbfunctions/dynamo.js";
+import { addJourney, getCar, updateEmissions } from "../dbfunctions/dynamo.js";
 import MapView, {
   Callout,
   Marker,
@@ -83,6 +83,12 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         distance * options.driving - distance * options[travel]
       ),
     });
+    updateEmissions({
+      emissions: distance * userVehicle[0].emissions,
+      savedEmissions: Math.round(
+        distance * options.driving - distance * options[travel]
+      ), 
+    })
     setCalc(false);
     setTrack(true);
   };

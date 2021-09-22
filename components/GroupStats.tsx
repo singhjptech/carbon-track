@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { getGroup, getUser, getGroupEmissions } from "../dbfunctions/dynamo.js";
+import Auth from "@aws-amplify/auth";
 
 export type Props = {
   navigation?: any,
@@ -27,13 +28,16 @@ const GroupStats: React.FC<Props> = ({ navigation, currGroup, currUser }) => {
         <Text style={styles.groupStatsText}>{currGroup.Item.GroupName} - Group Stats:</Text>
         {currGroup.Item.GroupMembers.map((member) => {
           console.log(member, '<---MEMBER')
-          return (
-            <Text key={member.UserName}>
-              <Text>{member.UserName}    </Text>
-              <Text>Total Emissions: {member.TotalEmissions}</Text>
-              {/* <Text>Emissions Saved: {member.EmissionsSaved}</Text> */}
-            </Text>
-          )
+          if (Auth.user.username !== member.UserName) {
+
+            return (
+              <Text key={member.UserName}>
+                <Text>{member.UserName}    </Text>
+                <Text>Total Emissions: {member.TotalEmissions}</Text>
+                {/* <Text>Emissions Saved: {member.EmissionsSaved}</Text> */}
+              </Text>
+            )
+          }
  
         })}
       </View>
