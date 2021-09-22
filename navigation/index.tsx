@@ -32,17 +32,9 @@ export default function Navigation({
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-<<<<<<< HEAD
-      <Stack.Navigator
-        screenOptions={{ headerShown: false }}
-        initialRouteName="User"
-      >
-        <Stack.Screen name="UserDetails" component={UserDetails} />
-=======
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="WelcomeBack">
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="User">
 
         <Stack.Screen name="WelcomeBack" component={WelcomeBack} />
->>>>>>> fc3bde6e6ed76f9e2a090818c008da63bea8a690
 
         <Stack.Screen name="GroupDetails" component={GroupDetails} />
 
