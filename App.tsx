@@ -22,7 +22,7 @@ const App = () => {
   // const [currUser, setCurrUser] = useState({});
   // const [currUser, setCurrUser] = useState({});
   // const [hasErrored, setHasErrored] = useState(false);
-
+  
   if (!isLoadingComplete) {
     return null;
   } else {
