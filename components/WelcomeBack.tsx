@@ -19,7 +19,7 @@ const WelcomeBack: React.FC<Props> = ({ navigation, route }) => {
     const [currUser, setCurrUser] = useState({});
     const [hasLoaded, setHasLoaded] = useState(false)
     useEffect(() => {
-        if (hasLoaded) navigation.navigate('GroupDetails', { screen: 'GroupDetails', params: { currUser, setCurrUser } });
+        if (hasLoaded) navigation.navigate('UserDetails', { screen: 'UserDetails', params: { currUser, setCurrUser } });
     }, [currUser, hasLoaded])
     const handlePress = () => {
         console.log(setCurrUser);
