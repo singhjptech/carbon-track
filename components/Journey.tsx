@@ -40,6 +40,8 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [track, setTrack] = useState(false);
 
   console.log(coords, "JOURNEY");
+  console.log(userVehicle, '<--- vehicle')
+  console.log(track, '<--- tracking')
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput)
@@ -75,7 +77,7 @@ const Journey: React.FC<Props> = ({ navigation }) => {
         setHasErrored(true);
       });
   };
-
+  
   const handleTrack = () => {
     addJourney({
       from: fromInput,
