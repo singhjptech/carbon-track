@@ -31,7 +31,7 @@ const App = () => {
 }
 
 const MyButton= Object.assign({}, AmplifyTheme.button, { backgroundColor: '#2F4847' });
-const MyImage= Object.assign({}, AmplifyTheme.image, { backgroundImage: url('src/icons/carbontrack.png') });
+const MyImage= Object.assign({}, AmplifyTheme.image, { backgroundImage: '../src/' });
 const MyTheme = Object.assign({}, AmplifyTheme, { button: MyButton, image: MyImage });
 
 export default withAuthenticator(App, {theme: MyTheme});
