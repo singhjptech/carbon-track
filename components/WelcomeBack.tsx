@@ -8,7 +8,6 @@ import {
     Image 
 } from "react-native";
 import { addUser, getUser } from "../dbfunctions/dynamo";
-import { Auth } from "aws-amplify";
 
 export type Props = {
     navigation?: any,
@@ -16,6 +15,13 @@ export type Props = {
 
 const WelcomeBack: React.FC<Props> = ({ navigation }) => {
     
+  getUser().then((user) => {
+    console.log('inside of getUser -- welcomeBack')
+    if(!user) {
+      console.log('inside of if statement -- welcomeBack')
+      addUser();
+    }
+  });
 
     const handlePress = () => {
         navigation.navigate('UserDetails');
