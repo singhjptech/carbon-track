@@ -35,7 +35,7 @@ export default function Navigation({
     >
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="Home"
+        initialRouteName="WelcomeBack"
       >
         <Stack.Screen name="WelcomeBack" component={WelcomeBack} />
 

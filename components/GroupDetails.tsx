@@ -15,10 +15,10 @@ export type Props = {
 };
 
 const GroupDetails: React.FC<Props> = ({ navigation }) => {
-  const [createGroupCode, setCreateGroupCode] = useState(null);
+  const [createGroupCode, setCreateGroupCode] = useState("");
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
-  const [joinGroupCode, setJoinGroupCode] = useState(null);
+  const [joinGroupCode, setJoinGroupCode] = useState("");
   const [joinGroupName, setJoinGroupName] = useState("");
   const [joinGroup, setJoinGroup] = useState({});
   const [hasErrored, setHasErrored] = useState(false);
@@ -28,12 +28,10 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
     newGroup.GroupCode = createGroupCode;
     newGroup.GroupName = createGroupName;
     addGroup(newGroup)
-      .then(() => {
-        setCreateGroup(newGroup);
-        setCreateGroupCode(null);
-        setCreateGroupName("");
-      })
-      .catch((err) => setHasErrored(true));
+    setCreateGroup(newGroup);
+    setCreateGroupCode("");
+    setCreateGroupName("");
+    navigation.navigate('Home');
   };
 
   const handleJoinSubmit = () => {
@@ -42,6 +40,9 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
     newGroup.GroupName = joinGroupName;
     addUserToGroup(newGroup).catch((err) => setHasErrored(true));
     setJoinGroup(newGroup);
+    setJoinGroupCode("");
+    setJoinGroupName("");
+    navigation.navigate('Home');
   };
 
   return (
@@ -55,6 +56,7 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.title}>Create Group:</Text>
           <Text style={styles.formLabel}>code:</Text>
           <TextInput
+            value={createGroupCode}
             placeholder={"1234"}
             style={styles.formInput}
             onChangeText={(createGroupCode) =>
@@ -63,6 +65,7 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
           />
           <Text style={styles.formLabel}>group name:</Text>
           <TextInput
+            value={createGroupName}
             placeholder={"asynchrosaurus"}
             style={styles.formInput}
             onChangeText={(createGroupName) =>
@@ -77,12 +80,14 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.title}>Join Group:</Text>
           <Text style={styles.formLabel}>code:</Text>
           <TextInput
+            value={joinGroupCode}
             placeholder="4321"
             style={styles.formInput}
             onChangeText={(joinGroupCode) => setJoinGroupCode(joinGroupCode)}
           />
           <Text style={styles.formLabel}>group name:</Text>
           <TextInput
+            value={joinGroupName}
             placeholder={"green team"}
             style={styles.formInput}
             onChangeText={(joinGroupName) => setJoinGroupName(joinGroupName)}
