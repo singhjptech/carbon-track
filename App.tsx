@@ -10,18 +10,13 @@ import Navigation from "./navigation";
 import { ScrollView } from "react-native-gesture-handler";
 import { createUser, getUser } from "./dbfunctions/dynamo.js";
 Amplify.configure({ ...awsconfig, Analytics: { disabled: true } });
+import { AmplifyTheme } from "aws-amplify-react-native"
+import { urlSafeEncode } from "@aws-amplify/core";
 
-// export type Props = {
-//   currUser?: any,
-//   setCurrUser?: any
-// }
 
 const App = () => {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  // const [currUser, setCurrUser] = useState({});
-  // const [currUser, setCurrUser] = useState({});
-  // const [hasErrored, setHasErrored] = useState(false);
   
   if (!isLoadingComplete) {
     return null;
@@ -35,5 +30,11 @@ const App = () => {
   }
 }
 
-export default withAuthenticator(App);
-// export default App;
+const MyButton= Object.assign({}, AmplifyTheme.button, { backgroundColor: '#2F4847' });
+const MyImage= Object.assign({}, AmplifyTheme.image, { backgroundImage: url('src/icons/carbontrack.png') });
+const MyTheme = Object.assign({}, AmplifyTheme, { button: MyButton, image: MyImage });
+
+export default withAuthenticator(App, {theme: MyTheme});
+
+// export default withAuthenticator(App);
+
