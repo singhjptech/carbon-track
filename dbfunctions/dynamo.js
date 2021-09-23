@@ -102,7 +102,7 @@ const addGroup = async (groupData) => {
   if (Object.keys(group).length === 0) {
     try {
       const oldUser = await dynamodb.get({
-        TableName: 'UserData', 
+        TableName: 'UserData',
         Key: {
           UserName: Auth.user.username,
         }
@@ -114,11 +114,11 @@ const addGroup = async (groupData) => {
             GroupCode: groupData.GroupCode,
             GroupName: groupData.GroupName,
             GroupCreator: Auth.user.username,
-            GroupMembers: [{UserName: Auth.user.username, TotalEmissions: oldUser.Item.TotalEmissions, EmissionsSaved: oldUser.Item.EmissionsSaved}],
+            GroupMembers: [{ UserName: Auth.user.username, TotalEmissions: oldUser.Item.TotalEmissions, EmissionsSaved: oldUser.Item.EmissionsSaved }],
           },
         })
         .promise();
-      
+
       await dynamodb.put({
         TableName: 'UserData',
         Item: {
@@ -136,11 +136,7 @@ const addGroup = async (groupData) => {
   }
 };
 const addUserToGroup = async (groupData) => {
-  console.log('addUserToGroup -- dynamo')
-  console.log(typeof groupData, '<--- type', groupData)
-  
-  try {
-    const group = await dynamodb
+  const group = await dynamodb
     .get({
       TableName: "GroupData",
       Key: {
@@ -148,55 +144,44 @@ const addUserToGroup = async (groupData) => {
       },
     })
     .promise();
-  } catch(err) { console.log(err)}
-  
-  console.log(group, '<---group')
   if (Object.keys(group).length === 0) {
-    console.log('inside of if', group)
-
     return false;
   } else {
-    
-    if (
-      group.Item.GroupCode === groupData.GroupCode &&
-      !group.Item.GroupMembers.includes(Auth.user.username)
-    ) {
-      console.log('inside of second if')
-      group.Item.GroupMembers.push({UserName: Auth.user.username, TotalEmissions: oldUser.Item.TotalEmissions, EmissionsSaved: oldUser.Item.EmissionsSaved});
-      try {
-        const oldUser = await dynamodb.get({
-          TableName: 'UserData', 
-          Key: {
-            UserName: Auth.user.username,
-          }
-        }).promise();
-        await dynamodb
-          .put({
-            TableName: "GroupData",
-            Item: {
-              GroupCode: group.Item.GroupCode,
-              GroupCreator: group.Item.GroupCreator,
-              GroupName: group.Item.GroupName,
-              GroupMembers: group.Item.GroupMembers,
-            },
-          })
-          .promise();
-        await dynamodb.put({
-          TableName: 'UserData',
+    if (group.Item.GroupCode === groupData.GroupCode &&
+      !group.Item.GroupMembers.includes(Auth.user.username)) {
+      const oldUser = await dynamodb.get({
+        TableName: 'UserData',
+        Key: {
+          UserName: Auth.user.username,
+        }
+      }).promise();
+      group.Item.GroupMembers.push({
+        UserName: Auth.user.username,
+        TotalEmissions: oldUser.Item.TotalEmissions,
+        EmissionsSaved: oldUser.Item.EmissionsSaved
+      });
+      await dynamodb
+        .put({
+          TableName: "GroupData",
           Item: {
-            UserName: Auth.user.username,
-            Vehicles: oldUser.Item.Vehicles,
-            TotalEmissions: oldUser.Item.TotalEmissions,
-            EmissionsSaved: oldUser.Item.EmissionsSaved,
-            Journey: oldUser.Item.Journey,
-            Groups: [...oldUser.Item.Groups, groupData.GroupName]
-          
-        }}).promise();
-        return true;
-      } catch (err) {
-        console.log(err)
-        return false;
-      }
+            GroupCode: group.Item.GroupCode,
+            GroupCreator: group.Item.GroupCreator,
+            GroupName: group.Item.GroupName,
+            GroupMembers: group.Item.GroupMembers,
+          },
+        })
+        .promise();
+      await dynamodb.put({
+        TableName: 'UserData',
+        Item: {
+          UserName: Auth.user.username,
+          Vehicles: oldUser.Item.Vehicles,
+          TotalEmissions: oldUser.Item.TotalEmissions,
+          EmissionsSaved: oldUser.Item.EmissionsSaved,
+          Journey: oldUser.Item.Journey,
+          Groups: [...oldUser.Item.Groups, groupData.GroupName]
+        }
+      }).promise();
     }
   }
 };
@@ -210,8 +195,8 @@ const getGroup = async (groupName) => {
       },
     })
     .promise();
-    //console.log(group)
-    return group;
+  //console.log(group)
+  return group;
 };
 
 const getGroupEmissions = async (username) => {
