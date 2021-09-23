@@ -32,8 +32,9 @@ const User: React.FC<Props> = ({ navigation }) => {
       console.log("hello");
       console.log(currUser.Groups[0].length, "<--current group");
 
-      getGroup(currUser.Groups[0])
+      getGroup(currUser.Groups[currUser.Groups.length -1])
         .then((res) => {
+          console.log('************** getGroup **************')
           setCurrGroup(res);
         })
         .catch((err) => {

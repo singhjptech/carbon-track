@@ -8,7 +8,11 @@ import {
   SafeAreaView,
 } from "react-native";
 
-const Offset = () => {
+export type Props = {
+  navigation?: any;
+};
+
+const Offset: React.FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>

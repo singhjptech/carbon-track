@@ -135,7 +135,11 @@ const addGroup = async (groupData) => {
   }
 };
 const addUserToGroup = async (groupData) => {
-  const group = await dynamodb
+  console.log('addUserToGroup -- dynamo')
+  console.log(typeof groupData, '<--- type', groupData)
+  
+  try {
+    const group = await dynamodb
     .get({
       TableName: "GroupData",
       Key: {
@@ -143,8 +147,12 @@ const addUserToGroup = async (groupData) => {
       },
     })
     .promise();
+  } catch(err) { console.log(err)}
   
+  console.log(group, '<---group')
   if (Object.keys(group).length === 0) {
+    console.log('inside of if', group)
+
     return false;
   } else {
     
@@ -152,6 +160,7 @@ const addUserToGroup = async (groupData) => {
       group.Item.GroupCode === groupData.GroupCode &&
       !group.Item.GroupMembers.includes(Auth.user.username)
     ) {
+      console.log('inside of second if')
       group.Item.GroupMembers.push({UserName: Auth.user.username, TotalEmissions: oldUser.Item.TotalEmissions, EmissionsSaved: oldUser.Item.EmissionsSaved});
       try {
         const oldUser = await dynamodb.get({
@@ -184,6 +193,7 @@ const addUserToGroup = async (groupData) => {
         }}).promise();
         return true;
       } catch (err) {
+        console.log(err)
         return false;
       }
     }
@@ -199,7 +209,7 @@ const getGroup = async (groupName) => {
       },
     })
     .promise();
-    console.log(group)
+    //console.log(group)
     return group;
 };
 
