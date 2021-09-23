@@ -75,6 +75,7 @@ const getCar = async () => {
       },
     })
     .promise();
+    console.log(vehicles)
   return vehicles.Item.Vehicles;
 };
 const getUser = async () => {
