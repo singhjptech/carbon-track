@@ -13,27 +13,30 @@ import HomeScreen from "../components/HomeScreen";
 import User from "../components/User";
 import Journey from "../components/Journey";
 import WelcomeBack from "../components/WelcomeBack";
+import Offset from "../components/Offset";
 
 const Stack = createNativeStackNavigator();
 export type Props = {
-  setCurrUser?: any,
-  currUser?: any
+  setCurrUser?: any;
+  currUser?: any;
 };
 
 export default function Navigation({
   // props,
   colorScheme,
 }: // currUser,
-  // setCurrUser
-  {
-    colorScheme: ColorSchemeName;
-  }) {
+// setCurrUser
+{
+  colorScheme: ColorSchemeName;
+}) {
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="WelcomeBack">
-
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Home"
+      >
         <Stack.Screen name="WelcomeBack" component={WelcomeBack} />
 
         <Stack.Screen name="GroupDetails" component={GroupDetails} />
@@ -45,6 +48,8 @@ export default function Navigation({
         <Stack.Screen name="User" component={User} />
 
         <Stack.Screen name="Journey" component={Journey} />
+
+        <Stack.Screen name="Offset" component={Offset} />
       </Stack.Navigator>
     </NavigationContainer>
   );

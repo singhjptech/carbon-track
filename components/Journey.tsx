@@ -87,10 +87,18 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       emissions: distance * userVehicle[0].emissions,
       savedEmissions: Math.round(
         distance * options.driving - distance * options[travel]
-      ), 
-    })
+      ),
+    });
     setCalc(false);
     setTrack(true);
+  };
+
+  const handleSearchAgain = () => {
+    setToInput("");
+    setFromInput("");
+    setUserVehicle(null);
+    setTrack(false);
+    setCalc(false);
   };
 
   const handleTransit = () => {
@@ -162,7 +170,10 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           style={styles.buttonHome}
           onPress={() => navigation.navigate("Home")}
         >
-          <Text style={styles.buttonHomeText}>Home</Text>
+          <Image
+            style={styles.homeImage}
+            source={require("../src/icons/home.png")}
+          />
         </Pressable>
         <Image
           style={styles.logo}
@@ -212,18 +223,65 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           title={"End of Carbon Offset"}
         />
       </MapView>
-
+      <Text style={styles.optionText}>Choose travel mode</Text>
       <View style={styles.optionContainer}>
-        <Pressable style={styles.buttonOption} onPress={handleTransit}>
+        <Pressable
+          onPress={handleTransit}
+          style={({ pressed }) => [
+            {
+              borderColor: pressed ? "#FF6584" : "#2F4847",
+            },
+            {
+              borderWidth: pressed ? 3 : 1,
+            },
+            styles.buttonOption,
+          ]}
+        >
           <Text style={styles.buttonOptionText}>Bus</Text>
         </Pressable>
-        <Pressable style={styles.buttonOption} onPress={handleBicycle}>
+        <Pressable
+          style={styles.buttonOption}
+          onPress={handleBicycle}
+          style={({ pressed }) => [
+            {
+              borderColor: pressed ? "#FF6584" : "#2F4847",
+            },
+            {
+              borderWidth: pressed ? 3 : 1,
+            },
+            styles.buttonOption,
+          ]}
+        >
           <Text style={styles.buttonOptionText}>Bicycle</Text>
         </Pressable>
-        <Pressable style={styles.buttonOption} onPress={handleWalk}>
+        <Pressable
+          style={styles.buttonOption}
+          onPress={handleWalk}
+          style={({ pressed }) => [
+            {
+              borderColor: pressed ? "#FF6584" : "#2F4847",
+            },
+            {
+              borderWidth: pressed ? 3 : 1,
+            },
+            styles.buttonOption,
+          ]}
+        >
           <Text style={styles.buttonOptionText}>Walk</Text>
         </Pressable>
-        <Pressable style={styles.buttonOption} onPress={handleCar}>
+        <Pressable
+          style={styles.buttonOption}
+          onPress={handleCar}
+          style={({ pressed }) => [
+            {
+              borderColor: pressed ? "#FF6584" : "#2F4847",
+            },
+            {
+              borderWidth: pressed ? 3 : 1,
+            },
+            styles.buttonOption,
+          ]}
+        >
           <Text style={styles.buttonOptionText}>Car</Text>
         </Pressable>
       </View>
@@ -231,23 +289,25 @@ const Journey: React.FC<Props> = ({ navigation }) => {
       {userVehicle && !track && (
         <View style={styles.calcContainer}>
           <Text style={styles.calcTitle}>Your Journey Emits...</Text>
-          <Text style={styles.calcText}>
+          <Text style={styles.trackText}>
             {Math.ceil(distance * options[travel])} grams of CO2
           </Text>
           <Text style={styles.calcText}>
             {" "}
-            You have saved{" "}
-            {Math.ceil(distance * options.driving - distance * options[travel])}
+            You can save{" "}
+            {Math.ceil(
+              distance * options.driving - distance * options[travel]
+            )}{" "}
             grams of CO2
           </Text>
           <Pressable style={styles.buttonTrack} onPress={handleTrack}>
-            <Text style={styles.buttonTrackText}>Track</Text>
+            <Text style={styles.buttonTrackText}>Add to Tracker</Text>
           </Pressable>
         </View>
       )}
       {track && (
         <View style={styles.calcContainer}>
-          <Text style={styles.calcTitle}>
+          <Text style={styles.trackText}>
             Journey has been added. See your profile
           </Text>
           <Pressable
@@ -255,6 +315,10 @@ const Journey: React.FC<Props> = ({ navigation }) => {
             onPress={() => navigation.navigate("User")}
           >
             <Text style={styles.buttonTrackText}>Profile</Text>
+          </Pressable>
+          <Text style={styles.trackText}>Or</Text>
+          <Pressable style={styles.buttonTrack} onPress={handleSearchAgain}>
+            <Text style={styles.buttonTrackText}>Search Again</Text>
           </Pressable>
         </View>
       )}
@@ -277,24 +341,12 @@ const styles = StyleSheet.create({
     height: 60,
   },
   buttonHome: {
-    alignItems: "center",
-    borderColor: "#2F4847",
-    backgroundColor: "#2F4847",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 5,
-    width: 80,
+    marginLeft: 30,
   },
   buttonHomeText: {
     color: "white",
     fontSize: 20,
   },
-  // title: {
-  //   textAlign: "center",
-  //   fontSize: 24,
-  //   fontWeight: "bold",
-  //   marginTop: 4,
-  // },
   formContainer: {
     justifyContent: "center",
     alignItems: "center",
@@ -302,7 +354,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     width: "90%",
-    marginBottom: 5,
+    marginBottom: 10,
   },
   formLabel: {
     marginTop: 5,
@@ -327,10 +379,9 @@ const styles = StyleSheet.create({
     borderColor: "#2F4847",
     backgroundColor: "#2F4847",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 28,
     padding: 5,
-    width: 110,
-    height: "18%",
+    width: 150,
     marginTop: 10,
     marginBottom: 10,
   },
@@ -342,7 +393,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 300,
     borderRadius: 28,
-    marginBottom: 5,
+    marginBottom: 10,
   },
   calcContainer: {
     flex: 1,
@@ -351,47 +402,52 @@ const styles = StyleSheet.create({
     height: "40%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
-    // margin: 20,
     width: "90%",
-  },
-  calcText: {
-    color: "#FF6584",
-    fontSize: 20,
-    fontWeight: "bold",
   },
   calcTitle: {
     color: "black",
     fontWeight: "bold",
-    fontSize: 25,
-    marginBottom: 5,
+    fontSize: 22,
+    marginBottom: 10,
     textAlign: "center",
+  },
+  calcText: {
+    color: "#FF6584",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   optionContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     width: "90%",
-    borderWidth: 1,
     height: 35,
-    borderColor: "red",
+    marginBottom: 10,
+  },
+  optionText: {
+    color: "#2F4847",
+    fontSize: 18,
     marginBottom: 5,
+    fontWeight: "bold",
   },
   buttonOption: {
     alignItems: "center",
     justifyContent: "center",
-    borderColor: "#2F4847",
-    backgroundColor: "#2F4847",
-    borderWidth: 1,
-    borderRadius: 8,
+    backgroundColor: "white",
+    borderRadius: 28,
     padding: 5,
     width: 80,
     height: "100%",
-    // marginTop: 15,
-    // marginBottom: 15,
   },
-
   buttonOptionText: {
-    color: "white",
+    color: "#2F4847",
     fontSize: 18,
+  },
+  trackText: {
+    color: "#2F4847",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
   },
   buttonTrack: {
     alignItems: "center",
@@ -399,10 +455,9 @@ const styles = StyleSheet.create({
     borderColor: "#2F4847",
     backgroundColor: "#2F4847",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 28,
     padding: 5,
-    width: 110,
-    height: "25%",
+    width: 150,
     marginTop: 15,
     marginBottom: 15,
   },
@@ -415,6 +470,10 @@ const styles = StyleSheet.create({
     width: 240,
     padding: 0,
     margin: 0,
+  },
+  homeImage: {
+    height: 35,
+    width: 35,
   },
 });
 

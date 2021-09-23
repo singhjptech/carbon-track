@@ -13,13 +13,22 @@ const UserStats: React.FC<Props> = ({ navigation, currUser }) => {
     <View style={styles.container}>
       <View style={styles.userStats}>
         <Text style={styles.userStatsTitle}>Your Stats</Text>
-        <Text>Your Total Emissions: {currUser.TotalEmissions}</Text>
-        <Text>Saved Emissions: {currUser.EmissionsSaved}</Text>
-        <Text>Total Journeys: {currUser.Journey.length}</Text>
+        <Text style={styles.userStatsText}>
+          Your Total Emissions: {currUser.TotalEmissions}
+        </Text>
+        <Text style={styles.userStatsText}>
+          Saved Emissions: {currUser.EmissionsSaved}
+        </Text>
+        <Text style={styles.userStatsText}>
+          Total Journeys: {currUser.Journey.length}
+        </Text>
       </View>
       <View style={styles.vehicleContainer}>
-        <Text>Your Vehicles: {currUser.Vehicles[0].make}</Text>
-        
+        <Text style={styles.userStatsTitle}>Your Vehicles</Text>
+
+        <Text style={styles.userStatsText}>
+          Vehicle 1: {currUser.Vehicles[0].make}
+        </Text>
       </View>
     </View>
   );
@@ -29,10 +38,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  userStats: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  vehicleContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
   userStatsTitle: {
-    fontSize: 28,
+    color: "#2F4847",
     textAlign: "center",
-    marginBottom: 5,
+    fontSize: 28,
+    fontWeight: "bold",
+    marginBottom: 15,
+    marginTop: 15,
+  },
+  userStatsText: {
+    fontSize: 18,
+    textTransform: "capitalize",
+    marginBottom: 10,
   },
 });
 

@@ -15,7 +15,6 @@ export type Props = {
 };
 
 const GroupDetails: React.FC<Props> = ({ navigation }) => {
- 
   const [createGroupCode, setCreateGroupCode] = useState(null);
   const [createGroupName, setCreateGroupName] = useState("");
   const [createGroup, setCreateGroup] = useState({});
@@ -28,26 +27,20 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
     const newGroup = { ...createGroup };
     newGroup.GroupCode = createGroupCode;
     newGroup.GroupName = createGroupName;
-    console.log(newGroup, "new group");
     addGroup(newGroup)
       .then(() => {
         setCreateGroup(newGroup);
-        console.log(createGroup, "state");
         setCreateGroupCode(null);
         setCreateGroupName("");
       })
       .catch((err) => setHasErrored(true));
-    //nothing executed after addGroup called
   };
 
   const handleJoinSubmit = () => {
     const newGroup = { ...joinGroup };
     newGroup.GroupCode = joinGroupCode;
     newGroup.GroupName = joinGroupName;
-    addUserToGroup(newGroup).catch((err) =>
-      setHasErrored(true)
-    );
-    console.log(newGroup, "join group");
+    addUserToGroup(newGroup).catch((err) => setHasErrored(true));
     setJoinGroup(newGroup);
   };
 
@@ -58,8 +51,8 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
         source={require("../src/icons/carbontrack.png")}
       />
       <View style={styles.form}>
-        <Text style={styles.title}>Create Group:</Text>
         <View style={styles.formContainer}>
+          <Text style={styles.title}>Create Group:</Text>
           <Text style={styles.formLabel}>code:</Text>
           <TextInput
             placeholder={"1234"}
@@ -80,12 +73,8 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.buttonFormText}>Create</Text>
           </Pressable>
         </View>
-        <Image
-          style={styles.image}
-          source={require("../src/icons/2F4847/shared-goals.png")}
-        />
-        <Text style={styles.title}>Join Group:</Text>
         <View style={styles.formContainer}>
+          <Text style={styles.title}>Join Group:</Text>
           <Text style={styles.formLabel}>code:</Text>
           <TextInput
             placeholder="4321"
@@ -110,7 +99,7 @@ const GroupDetails: React.FC<Props> = ({ navigation }) => {
           style={styles.buttonSolo}
           onPress={() => navigation.navigate("Home")}
         >
-          <Text style={styles.buttonFormText}>Ridin' Solo</Text>
+          <Text style={styles.buttonSoloText}>Ridin' Solo</Text>
         </Pressable>
       </View>
     </SafeAreaView>
@@ -121,6 +110,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "white",
   },
   form: {
@@ -130,18 +120,20 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   title: {
+    color: "#2F4847",
     textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
     marginTop: 4,
   },
   formContainer: {
+    flex: 2,
     justifyContent: "center",
     alignItems: "center",
-    height: "25%",
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
     width: "90%",
+    marginBottom: 20,
   },
   formLabel: {
     marginTop: 5,
@@ -159,6 +151,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: "15%",
     width: 160,
+    marginBottom: 10,
   },
   buttonForm: {
     alignItems: "center",
@@ -166,10 +159,9 @@ const styles = StyleSheet.create({
     borderColor: "#2F4847",
     backgroundColor: "#2F4847",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 28,
     padding: 5,
-    width: 110,
-    height: "16%",
+    width: 150,
     marginTop: 15,
     marginBottom: 15,
   },
@@ -181,19 +173,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderColor: "#2F4847",
-    backgroundColor: "#2F4847",
+    backgroundColor: "white",
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 28,
     padding: 5,
-    width: 110,
+    width: 150,
     marginTop: 15,
     marginBottom: 15,
+  },
+  buttonSoloText: {
+    color: "#2F4847",
+    fontSize: 18,
   },
   logo: {
     height: 35,
     width: 240,
     padding: 0,
-    marginBottom: 16,
+    marginBottom: 25,
   },
   image: {
     height: 125,

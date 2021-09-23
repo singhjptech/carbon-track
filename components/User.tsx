@@ -5,7 +5,6 @@ import GroupStats from "./GroupStats";
 import UserStats from "./UserStats";
 import { getUser, getGroup } from "../dbfunctions/dynamo.js";
 
-
 export type Props = {
   currGroup?: any;
   navigation?: any;
@@ -15,7 +14,7 @@ const User: React.FC<Props> = ({ navigation }) => {
   const [currUser, setCurrUser] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
   const [currGroup, setCurrGroup] = useState(null);
-  const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     getUser()
@@ -30,15 +29,16 @@ const User: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     if (hasLoaded) {
-      console.log('hello');
-      console.log(currUser.Groups[0].length, '<--current group');
-      
-      getGroup(currUser.Groups[0]).then((res) => {
-        setCurrGroup(res)
-      }).catch((err) => {
-        setHasErrored(true);
-      });
+      console.log("hello");
+      console.log(currUser.Groups[0].length, "<--current group");
 
+      getGroup(currUser.Groups[0])
+        .then((res) => {
+          setCurrGroup(res);
+        })
+        .catch((err) => {
+          setHasErrored(true);
+        });
     }
   }, [hasLoaded]);
 
@@ -49,7 +49,10 @@ const User: React.FC<Props> = ({ navigation }) => {
           style={styles.buttonHome}
           onPress={() => navigation.navigate("Home")}
         >
-          <Text style={styles.buttonHomeText}>Home</Text>
+          <Image
+            style={styles.homeImage}
+            source={require("../src/icons/home.png")}
+          />
         </Pressable>
         <Image
           style={styles.logo}
@@ -58,18 +61,22 @@ const User: React.FC<Props> = ({ navigation }) => {
       </View>
       <View style={styles.userHeader}>
         <Text style={styles.userWelcome}>
-          Hey,  {currUser ? currUser.UserName : "friend!"}
+          Hey, {currUser ? currUser.UserName : "friend!"}
         </Text>
       </View>
-      {currUser&&(
-      <View style={styles.statsContainer}>
-        <UserStats navigation={navigation} currUser={currUser} />
-      </View>
+      {currUser && (
+        <View style={styles.statsContainer}>
+          <UserStats navigation={navigation} currUser={currUser} />
+        </View>
       )}
       <View style={styles.statsContainer}>
-        {currGroup&&
-        (<GroupStats navigation={navigation} currUser={currUser} currGroup={currGroup}/>)
-        }
+        {currGroup && (
+          <GroupStats
+            navigation={navigation}
+            currUser={currUser}
+            currGroup={currGroup}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -91,25 +98,14 @@ const styles = StyleSheet.create({
     height: 60,
   },
   buttonHome: {
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: "#2F4847",
-    backgroundColor: "#2F4847",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 5,
-    width: 80,
-  },
-  buttonHomeText: {
-    color: "white",
-    fontSize: 20,
+    marginLeft: 30,
   },
   userHeader: {
-    color: "black",
     alignItems: "center",
     justifyContent: "center",
   },
   userWelcome: {
+    color: "#2F4847",
     fontSize: 28,
     fontWeight: "bold",
   },
@@ -118,12 +114,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "90%",
-    height: 250,
     borderRadius: 28,
     backgroundColor: "#D7E7E1",
-    margin: 20,
+    marginTop: 20,
   },
-
+  homeImage: {
+    height: 35,
+    width: 35,
+  },
   logo: {
     height: 35,
     width: 240,
