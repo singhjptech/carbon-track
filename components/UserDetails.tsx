@@ -63,14 +63,17 @@ const UserDetails: React.FC<Props> = ({ navigation }) => {
               style={styles.input}
               onChangeText={(inputReg) => setInputReg(inputReg)}
             />
+            {hasErrored && (
+              <Text style={styles.inputError}>Error, invalid input</Text>
+            )}
             <Pressable style={styles.buttonForm} onPress={handleSubmit}>
               <Text style={styles.buttonFormText}>Search</Text>
             </Pressable>
           </>
         )}
-        {hasErrored && (
+        {/* {hasErrored && (
           <Text style={styles.inputError}>Error, invalid input</Text>
-        )}
+        )} */}
 
         {userVehicle && (
           <View style={styles.confirmContainer}>
