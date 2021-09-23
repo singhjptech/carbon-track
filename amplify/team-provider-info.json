@@ -10,12 +10,6 @@
       "StackName": "amplify-carbonoffset-dev-92847",
       "StackId": "arn:aws:cloudformation:eu-west-2:602898938862:stack/amplify-carbonoffset-dev-92847/c9a66ce0-1535-11ec-9fce-02d3cff88932",
       "AmplifyAppId": "d293xzjil49fpz"
-    },
-    "categories": {
-      "auth": {
-        "carbonoffset50326ed6": {},
-        "userPoolGroups": {}
-      }
     }
   }
 }
