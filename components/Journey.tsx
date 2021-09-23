@@ -31,13 +31,15 @@ const Journey: React.FC<Props> = ({ navigation }) => {
   const [toInput, setToInput] = useState("");
   const [distance, setDistance] = useState(null);
   const [hasErrored, setHasErrored] = useState(false);
-  const [coords, setCoords] = useState({});
+  const [coords, setCoords] = useState(null);
   const [steps, setSteps] = useState([]);
   const [userVehicle, setUserVehicle] = useState(null);
   const [travel, setTravel] = useState("driving");
 
   const [calc, setCalc] = useState(false);
   const [track, setTrack] = useState(false);
+
+  console.log(coords, "JOURNEY");
 
   const handleSubmit = () => {
     getDistance(fromInput, toInput)
@@ -218,10 +220,12 @@ const Journey: React.FC<Props> = ({ navigation }) => {
           strokeColors={["#FF6584"]}
           strokeWidth={4}
         />
-        <Marker
-          coordinate={{ latitude: coords.endLat, longitude: coords.endLng }}
-          title={"End of Carbon Offset"}
-        />
+        {coords && (
+          <Marker
+            coordinate={{ latitude: coords.endLat, longitude: coords.endLng }}
+            title={"End of Carbon Offset"}
+          />
+        )}
       </MapView>
       <Text style={styles.optionText}>Choose travel mode</Text>
       <View style={styles.optionContainer}>
@@ -458,7 +462,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     padding: 5,
     width: 150,
-    marginTop: 15,
+    marginTop: 5,
     marginBottom: 15,
   },
   buttonTrackText: {
