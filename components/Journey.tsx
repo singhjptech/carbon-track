@@ -321,8 +321,11 @@ const Journey: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.buttonTrackText}>Profile</Text>
           </Pressable>
           <Text style={styles.trackText}>Or</Text>
-          <Pressable style={styles.buttonTrack} onPress={handleSearchAgain}>
-            <Text style={styles.buttonTrackText}>Search Again</Text>
+          <Pressable
+            style={styles.buttonSearchAgain}
+            onPress={handleSearchAgain}
+          >
+            <Text style={styles.buttonSearchAgainText}>Search Again</Text>
           </Pressable>
         </View>
       )}
@@ -467,6 +470,22 @@ const styles = StyleSheet.create({
   },
   buttonTrackText: {
     color: "white",
+    fontSize: 18,
+  },
+  buttonSearchAgain: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#2F4847",
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderRadius: 28,
+    padding: 5,
+    width: 150,
+    marginTop: 5,
+    marginBottom: 15,
+  },
+  buttonSearchAgainText: {
+    color: "#2F4847",
     fontSize: 18,
   },
   logo: {
