@@ -14,10 +14,10 @@ const UserStats: React.FC<Props> = ({ navigation, currUser }) => {
       <View style={styles.userStats}>
         <Text style={styles.userStatsTitle}>Your Stats</Text>
         <Text style={styles.userStatsText}>
-          Your Total Emissions: {currUser.TotalEmissions}
+          Your Total Emissions: {Math.ceil(currUser.TotalEmissions)} grams
         </Text>
         <Text style={styles.userStatsText}>
-          Saved Emissions: {currUser.EmissionsSaved}
+          Saved Emissions: {Math.ceil(currUser.EmissionsSaved)} grams
         </Text>
         <Text style={styles.userStatsText}>
           Total Journeys: {currUser.Journey.length}
@@ -26,7 +26,7 @@ const UserStats: React.FC<Props> = ({ navigation, currUser }) => {
       <View style={styles.vehicleContainer}>
         <Text style={styles.userStatsTitle}>Your Vehicles</Text>
 
-        <Text style={styles.userStatsText}>
+        <Text style={styles.userVehicleText}>
           Vehicle 1: {currUser.Vehicles[0].make}
         </Text>
       </View>
@@ -55,6 +55,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   userStatsText: {
+    fontSize: 18,
+    // textTransform: "capitalize",
+    marginBottom: 10,
+  },
+  userVehicleText: {
     fontSize: 18,
     textTransform: "capitalize",
     marginBottom: 10,
